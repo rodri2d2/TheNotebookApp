@@ -17,7 +17,7 @@ El objetivo principal es crear una app que sea capaz de realizar una operación 
 
 ## Main goals
 
-The main goal is to create an app that is abble to process a CRUP operation through CoreData Framework
+The main goal is to create an app that is able to process a CRUD operation through CoreData Framework
 
 - Learn and reinforce how does iOS Concurrency work
 - Learn and reinforce how does CoreData work
