@@ -26,6 +26,7 @@ class NotebookCoordinator: Coordinator{
     func start() {
         //
         let viewModel = NotebookViewModel()
+        viewModel.coordinatorDelegate = self
         let notebookController = NotebookViewController(notebookViewModel: viewModel)
         //
         self.presenter.setViewControllers([notebookController], animated: true)
@@ -34,4 +35,13 @@ class NotebookCoordinator: Coordinator{
     
     func finish() {}
 
+}
+    
+    
+// MARK: - Extension for NotebookCoordinatorDelegate
+extension NotebookCoordinator: NotebookCoodinatorDelegate{
+  func didPressPlusButton() {
+            print("Llamar al siguiente coordinator")
+}
+    
 }

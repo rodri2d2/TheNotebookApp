@@ -17,6 +17,12 @@
 		5B33438225CC5AE3008EDA12 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B33438125CC5AE3008EDA12 /* SceneDelegate.swift */; };
 		5B33438925CC5AE4008EDA12 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5B33438825CC5AE4008EDA12 /* Assets.xcassets */; };
 		5B33438C25CC5AE4008EDA12 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5B33438A25CC5AE4008EDA12 /* LaunchScreen.storyboard */; };
+		5B854EFE25CD44A900F80353 /* UIView+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B854EFD25CD44A900F80353 /* UIView+Ext.swift */; };
+		5B854F0225CD479D00F80353 /* NotebookCoodinatorDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B854F0125CD479D00F80353 /* NotebookCoodinatorDelegate.swift */; };
+		5B86D17B25CD4D7400D0FF84 /* NotebookCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B86D17925CD4D7400D0FF84 /* NotebookCell.swift */; };
+		5B86D17C25CD4D7400D0FF84 /* NotebookCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5B86D17A25CD4D7400D0FF84 /* NotebookCell.xib */; };
+		5B86D18025CD4DE500D0FF84 /* NotebookMockModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B86D17F25CD4DE500D0FF84 /* NotebookMockModel.swift */; };
+		5B86D18425CD579E00D0FF84 /* NotebookViewModelDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B86D18325CD579E00D0FF84 /* NotebookViewModelDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +38,12 @@
 		5B33438825CC5AE4008EDA12 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5B33438B25CC5AE4008EDA12 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		5B33438D25CC5AE4008EDA12 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5B854EFD25CD44A900F80353 /* UIView+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Ext.swift"; sourceTree = "<group>"; };
+		5B854F0125CD479D00F80353 /* NotebookCoodinatorDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotebookCoodinatorDelegate.swift; sourceTree = "<group>"; };
+		5B86D17925CD4D7400D0FF84 /* NotebookCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotebookCell.swift; sourceTree = "<group>"; };
+		5B86D17A25CD4D7400D0FF84 /* NotebookCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NotebookCell.xib; sourceTree = "<group>"; };
+		5B86D17F25CD4DE500D0FF84 /* NotebookMockModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotebookMockModel.swift; sourceTree = "<group>"; };
+		5B86D18325CD579E00D0FF84 /* NotebookViewModelDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotebookViewModelDelegate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,6 +100,7 @@
 		5B08AAD125CD349800292355 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				5B86D17F25CD4DE500D0FF84 /* NotebookMockModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -95,6 +108,8 @@
 		5B08AAD225CD34A000292355 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				5B86D17925CD4D7400D0FF84 /* NotebookCell.swift */,
+				5B86D17A25CD4D7400D0FF84 /* NotebookCell.xib */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -110,6 +125,7 @@
 		5B08AAE025CD351900292355 /* ViewModelProtocols */ = {
 			isa = PBXGroup;
 			children = (
+				5B86D18325CD579E00D0FF84 /* NotebookViewModelDelegate.swift */,
 			);
 			path = ViewModelProtocols;
 			sourceTree = "<group>";
@@ -117,6 +133,7 @@
 		5B08AAE825CD35C200292355 /* CoordinatorProtocols */ = {
 			isa = PBXGroup;
 			children = (
+				5B854F0125CD479D00F80353 /* NotebookCoodinatorDelegate.swift */,
 			);
 			path = CoordinatorProtocols;
 			sourceTree = "<group>";
@@ -140,6 +157,7 @@
 		5B33437E25CC5AE3008EDA12 /* TheNotebookApp */ = {
 			isa = PBXGroup;
 			children = (
+				5B854EFC25CD445700F80353 /* Extensions */,
 				5B08AAD325CD34B400292355 /* Resources */,
 				5B08AAC125CD308F00292355 /* App */,
 				5B08AAD225CD34A000292355 /* Views */,
@@ -149,6 +167,14 @@
 				5B08AAC525CD30B400292355 /* Coordinators */,
 			);
 			path = TheNotebookApp;
+			sourceTree = "<group>";
+		};
+		5B854EFC25CD445700F80353 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				5B854EFD25CD44A900F80353 /* UIView+Ext.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -208,6 +234,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5B86D17C25CD4D7400D0FF84 /* NotebookCell.xib in Resources */,
 				5B33438C25CC5AE4008EDA12 /* LaunchScreen.storyboard in Resources */,
 				5B33438925CC5AE4008EDA12 /* Assets.xcassets in Resources */,
 			);
@@ -220,11 +247,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5B854F0225CD479D00F80353 /* NotebookCoodinatorDelegate.swift in Sources */,
 				5B08AAC725CD30D700292355 /* Coordinator.swift in Sources */,
 				5B08AAE625CD35BB00292355 /* NotebookCoordinator.swift in Sources */,
 				5B08AADE25CD351200292355 /* NotebookCellViewModel.swift in Sources */,
 				5B08AACC25CD334D00292355 /* AppCoordinator.swift in Sources */,
+				5B86D17B25CD4D7400D0FF84 /* NotebookCell.swift in Sources */,
+				5B86D18025CD4DE500D0FF84 /* NotebookMockModel.swift in Sources */,
 				5B33438025CC5AE3008EDA12 /* AppDelegate.swift in Sources */,
+				5B86D18425CD579E00D0FF84 /* NotebookViewModelDelegate.swift in Sources */,
+				5B854EFE25CD44A900F80353 /* UIView+Ext.swift in Sources */,
 				5B08AAE325CD356A00292355 /* NotebookViewController.swift in Sources */,
 				5B33438225CC5AE3008EDA12 /* SceneDelegate.swift in Sources */,
 				5B08AADB25CD350100292355 /* NotebookViewModel.swift in Sources */,
@@ -376,7 +408,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = app.byrodri.TheNotebookApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -395,7 +427,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = app.byrodri.TheNotebookApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
