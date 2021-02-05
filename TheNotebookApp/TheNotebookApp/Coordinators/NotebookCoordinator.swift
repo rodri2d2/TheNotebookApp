@@ -40,8 +40,5 @@ class NotebookCoordinator: Coordinator{
     
 // MARK: - Extension for NotebookCoordinatorDelegate
 extension NotebookCoordinator: NotebookCoodinatorDelegate{
-  func didPressPlusButton() {
-            print("Llamar al siguiente coordinator")
-}
     
 }

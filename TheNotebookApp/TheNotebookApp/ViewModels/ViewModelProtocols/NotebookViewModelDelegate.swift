@@ -8,5 +8,5 @@
 import Foundation
 
 protocol NotebookViewModelDelegate {
-    
+    func dataDidChange()
 }

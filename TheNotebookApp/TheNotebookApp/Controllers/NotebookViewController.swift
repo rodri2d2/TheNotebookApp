@@ -13,7 +13,7 @@ class NotebookViewController: UIViewController{
     private var viewModel: NotebookViewModel
     
     // MARK: - Outlets
-    var tablewView: UITableView?
+    var tablewView: UITableView!
     
     // MARK: - Lyfecycle
     init(notebookViewModel: NotebookViewModel) {
@@ -40,7 +40,35 @@ class NotebookViewController: UIViewController{
     
     // MARK: - Actions
     @objc private func didPressPlusButton(){
-        self.viewModel.plusButtonWasPressed()
+        
+        
+        let alert = UIAlertController(title: "New Notebook", message: "Enter New Notebook Info", preferredStyle: .alert)
+        
+        //Text field for notebook name
+        alert.addTextField(configurationHandler: nil)
+        alert.textFields![0].placeholder = "Enter Notebook Name"
+        
+        //Text field for notebook description
+        alert.addTextField(configurationHandler: nil)
+        alert.textFields![1].placeholder = "Enter Notebook Description"
+        
+        
+        alert.addAction(UIAlertAction(title: "Create Notebook", style: .cancel, handler: {[weak self]  _ in
+        
+            guard let titleField = alert.textFields?[0],
+                  let descField = alert.textFields?[1],
+                  let title = titleField.text,
+                  let description = descField.text
+            else{return}
+            
+            if !title.isEmpty{
+                print(title)
+                self?.viewModel.plusButtonWasPressed(title: title, description: description)
+            }
+        }))
+        
+        present(alert, animated: true, completion: nil)
+
     }
     
     @objc private func didPressRemoveAllButton(){
@@ -73,26 +101,34 @@ class NotebookViewController: UIViewController{
     
     private func setupOutletsSytlesAndItems(){
         self.tablewView = self.view.createTableView(delegate: self, dataSource: self)
-        self.tablewView?.register(NotebookCell.self, forCellReuseIdentifier: NotebookCell.IDENTIFIER)
+        self.tablewView.register(UINib(nibName: NotebookCell.IDENTIFIER, bundle: .main), forCellReuseIdentifier: NotebookCell.IDENTIFIER)
+        self.view.addSubview(self.tablewView)
+        self.tablewView.pin(to: self.view)
+        tablewView.separatorStyle = .none
     }
     
 }
 
 // MARK: - Extension for NotebookViewModelDelegate
 extension NotebookViewController: NotebookViewModelDelegate{
+    func dataDidChange() {
+        self.tablewView.reloadData()
+    }
+    
     
 }
-
 
 // MARK: - Extension for UITableViewDataSource
 extension NotebookViewController: UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return self.viewModel.numberOfNotebooks()
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell()
-        cell.textLabel?.text = "Add cell \(indexPath.row)"
+        
+        let cellViewModel = self.viewModel.cellWasLoad(at: indexPath.row)
+        let cell = tableView.dequeueReusableCell(withIdentifier: NotebookCell.IDENTIFIER, for: indexPath) as! NotebookCell
+        cell.viewModel = cellViewModel
         return cell
     }
 }
@@ -102,5 +138,9 @@ extension NotebookViewController: UITableViewDelegate{
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
     }
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return CGFloat(100)
+    }
+    
 }
 

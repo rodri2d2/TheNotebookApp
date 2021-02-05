@@ -19,16 +19,11 @@ class NotebookViewModel{
     // MARK: - Class functionalities
     //View Related
     func viewWasLoad(){
-      
-        let notebooksMock = NotebookMockData.notebooks()
-        cells = notebooksMock.map({ notebookDataMock in
-            return NotebookCellViewModel(notebookItem: notebookDataMock)
-        })
-        
+        //Do some DB load
     }
     
-    func cellWasLoad() -> NotebookCellViewModel? {
-        return nil
+    func cellWasLoad(at indexRow: Int) -> NotebookCellViewModel {
+        return cells[indexRow]
     }
     
     func numberOfNotebooks() -> Int{
@@ -36,12 +31,17 @@ class NotebookViewModel{
     }
     
     //Actions Related
-    func plusButtonWasPressed(){
-        self.coordinatorDelegate?.didPressPlusButton()
+    func plusButtonWasPressed(title: String, description: String){
+        
+        let notebookMockData = NotebookMockModel(title: title, decription: description, createdAt: Date())
+        cells.append(NotebookCellViewModel(notebookItem: notebookMockData))
+        self.delegate?.dataDidChange()
+        
     }
     
     func removeAllButtonWasPressed(){
-        print("Remove all notebooks")
+        cells.removeAll()
+        delegate?.dataDidChange()
     }
     
 }
