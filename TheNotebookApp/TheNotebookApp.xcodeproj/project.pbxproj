@@ -7,20 +7,28 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5B08AAC725CD30D700292355 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B08AAC625CD30D700292355 /* Coordinator.swift */; };
+		5B08AACC25CD334D00292355 /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B08AACB25CD334D00292355 /* AppCoordinator.swift */; };
+		5B08AADB25CD350100292355 /* NotebookViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B08AADA25CD350100292355 /* NotebookViewModel.swift */; };
+		5B08AADE25CD351200292355 /* NotebookCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B08AADD25CD351200292355 /* NotebookCellViewModel.swift */; };
+		5B08AAE325CD356A00292355 /* NotebookViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B08AAE225CD356A00292355 /* NotebookViewController.swift */; };
+		5B08AAE625CD35BB00292355 /* NotebookCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B08AAE525CD35BB00292355 /* NotebookCoordinator.swift */; };
 		5B33438025CC5AE3008EDA12 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B33437F25CC5AE3008EDA12 /* AppDelegate.swift */; };
 		5B33438225CC5AE3008EDA12 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B33438125CC5AE3008EDA12 /* SceneDelegate.swift */; };
-		5B33438425CC5AE3008EDA12 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B33438325CC5AE3008EDA12 /* ViewController.swift */; };
-		5B33438725CC5AE3008EDA12 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5B33438525CC5AE3008EDA12 /* Main.storyboard */; };
 		5B33438925CC5AE4008EDA12 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5B33438825CC5AE4008EDA12 /* Assets.xcassets */; };
 		5B33438C25CC5AE4008EDA12 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5B33438A25CC5AE4008EDA12 /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5B08AAC625CD30D700292355 /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
+		5B08AACB25CD334D00292355 /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
+		5B08AADA25CD350100292355 /* NotebookViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotebookViewModel.swift; sourceTree = "<group>"; };
+		5B08AADD25CD351200292355 /* NotebookCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotebookCellViewModel.swift; sourceTree = "<group>"; };
+		5B08AAE225CD356A00292355 /* NotebookViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotebookViewController.swift; sourceTree = "<group>"; };
+		5B08AAE525CD35BB00292355 /* NotebookCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotebookCoordinator.swift; sourceTree = "<group>"; };
 		5B33437C25CC5AE3008EDA12 /* TheNotebookApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TheNotebookApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5B33437F25CC5AE3008EDA12 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5B33438125CC5AE3008EDA12 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		5B33438325CC5AE3008EDA12 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		5B33438625CC5AE3008EDA12 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		5B33438825CC5AE4008EDA12 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5B33438B25CC5AE4008EDA12 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		5B33438D25CC5AE4008EDA12 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -37,6 +45,82 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5B08AAC125CD308F00292355 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				5B33438A25CC5AE4008EDA12 /* LaunchScreen.storyboard */,
+				5B33437F25CC5AE3008EDA12 /* AppDelegate.swift */,
+				5B33438125CC5AE3008EDA12 /* SceneDelegate.swift */,
+				5B33438D25CC5AE4008EDA12 /* Info.plist */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		5B08AAC525CD30B400292355 /* Coordinators */ = {
+			isa = PBXGroup;
+			children = (
+				5B08AAE825CD35C200292355 /* CoordinatorProtocols */,
+				5B08AAC625CD30D700292355 /* Coordinator.swift */,
+				5B08AACB25CD334D00292355 /* AppCoordinator.swift */,
+				5B08AAE525CD35BB00292355 /* NotebookCoordinator.swift */,
+			);
+			path = Coordinators;
+			sourceTree = "<group>";
+		};
+		5B08AACF25CD348400292355 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				5B08AAE225CD356A00292355 /* NotebookViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		5B08AAD025CD348C00292355 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				5B08AAE025CD351900292355 /* ViewModelProtocols */,
+				5B08AADA25CD350100292355 /* NotebookViewModel.swift */,
+				5B08AADD25CD351200292355 /* NotebookCellViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		5B08AAD125CD349800292355 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		5B08AAD225CD34A000292355 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		5B08AAD325CD34B400292355 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				5B33438825CC5AE4008EDA12 /* Assets.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		5B08AAE025CD351900292355 /* ViewModelProtocols */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModelProtocols;
+			sourceTree = "<group>";
+		};
+		5B08AAE825CD35C200292355 /* CoordinatorProtocols */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = CoordinatorProtocols;
+			sourceTree = "<group>";
+		};
 		5B33437325CC5AE3008EDA12 = {
 			isa = PBXGroup;
 			children = (
@@ -56,13 +140,13 @@
 		5B33437E25CC5AE3008EDA12 /* TheNotebookApp */ = {
 			isa = PBXGroup;
 			children = (
-				5B33437F25CC5AE3008EDA12 /* AppDelegate.swift */,
-				5B33438125CC5AE3008EDA12 /* SceneDelegate.swift */,
-				5B33438325CC5AE3008EDA12 /* ViewController.swift */,
-				5B33438525CC5AE3008EDA12 /* Main.storyboard */,
-				5B33438825CC5AE4008EDA12 /* Assets.xcassets */,
-				5B33438A25CC5AE4008EDA12 /* LaunchScreen.storyboard */,
-				5B33438D25CC5AE4008EDA12 /* Info.plist */,
+				5B08AAD325CD34B400292355 /* Resources */,
+				5B08AAC125CD308F00292355 /* App */,
+				5B08AAD225CD34A000292355 /* Views */,
+				5B08AAD125CD349800292355 /* Models */,
+				5B08AAD025CD348C00292355 /* ViewModels */,
+				5B08AACF25CD348400292355 /* Controllers */,
+				5B08AAC525CD30B400292355 /* Coordinators */,
 			);
 			path = TheNotebookApp;
 			sourceTree = "<group>";
@@ -126,7 +210,6 @@
 			files = (
 				5B33438C25CC5AE4008EDA12 /* LaunchScreen.storyboard in Resources */,
 				5B33438925CC5AE4008EDA12 /* Assets.xcassets in Resources */,
-				5B33438725CC5AE3008EDA12 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -137,23 +220,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5B33438425CC5AE3008EDA12 /* ViewController.swift in Sources */,
+				5B08AAC725CD30D700292355 /* Coordinator.swift in Sources */,
+				5B08AAE625CD35BB00292355 /* NotebookCoordinator.swift in Sources */,
+				5B08AADE25CD351200292355 /* NotebookCellViewModel.swift in Sources */,
+				5B08AACC25CD334D00292355 /* AppCoordinator.swift in Sources */,
 				5B33438025CC5AE3008EDA12 /* AppDelegate.swift in Sources */,
+				5B08AAE325CD356A00292355 /* NotebookViewController.swift in Sources */,
 				5B33438225CC5AE3008EDA12 /* SceneDelegate.swift in Sources */,
+				5B08AADB25CD350100292355 /* NotebookViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		5B33438525CC5AE3008EDA12 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				5B33438625CC5AE3008EDA12 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		5B33438A25CC5AE4008EDA12 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -288,7 +368,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 2Q7F87669V;
-				INFOPLIST_FILE = TheNotebookApp/Info.plist;
+				INFOPLIST_FILE = TheNotebookApp/App/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -307,7 +387,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 2Q7F87669V;
-				INFOPLIST_FILE = TheNotebookApp/Info.plist;
+				INFOPLIST_FILE = TheNotebookApp/App/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
