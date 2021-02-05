@@ -22,18 +22,25 @@ class NotebookViewModel{
         //Do some DB load
     }
     
-    func cellWasLoad(at indexRow: Int) -> NotebookCellViewModel {
-        return cells[indexRow]
-    }
-    
     func numberOfNotebooks() -> Int{
         return self.cells.count
     }
     
+    func cellWasLoad(at indexRow: Int) -> NotebookCellViewModel {
+        return cells[indexRow]
+    }
+    
+    func cellWasSelected(at indexPath: IndexPath){
+        
+        let notebook = NotebookMockModel(title: "TEst", decription: "TESt", createdAt: Date(), notas: nil)
+        
+        self.coordinatorDelegate?.didSelectANotebook(noteBook: notebook)
+    }
+
     //Actions Related
     func plusButtonWasPressed(title: String, description: String){
         
-        let notebookMockData = NotebookMockModel(title: title, decription: description, createdAt: Date())
+        let notebookMockData = NotebookMockModel(title: title, decription: description, createdAt: Date(), notas: nil)
         cells.append(NotebookCellViewModel(notebookItem: notebookMockData))
         self.delegate?.dataDidChange()
         

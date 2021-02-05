@@ -27,7 +27,7 @@ class NotebookCoordinator: Coordinator{
         //
         let viewModel = NotebookViewModel()
         viewModel.coordinatorDelegate = self
-        let notebookController = NotebookViewController(notebookViewModel: viewModel)
+        let notebookController = NotebookListViewController(notebookViewModel: viewModel)
         //
         self.presenter.setViewControllers([notebookController], animated: true)
         
@@ -39,6 +39,22 @@ class NotebookCoordinator: Coordinator{
     
     
 // MARK: - Extension for NotebookCoordinatorDelegate
-extension NotebookCoordinator: NotebookCoodinatorDelegate{
+    extension NotebookCoordinator: NotebookCoodinatorDelegate{
+        
+        
+        func didSelectANotebook(noteBook: NotebookMockModel) {
+            //
+            let noteViewModel = NoteListViewModel(notebook: noteBook)
+            let noteListViewController = NoteListViewController(noteViewModel: noteViewModel)
+            noteViewModel.delegate = noteListViewController
+            
+            //
+            self.presenter.pushViewController(noteListViewController, animated: true)
+        }
+        
+        
+        func childDidFinish() {
+            
+        }
     
 }

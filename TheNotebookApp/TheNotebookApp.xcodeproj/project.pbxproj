@@ -11,8 +11,12 @@
 		5B08AACC25CD334D00292355 /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B08AACB25CD334D00292355 /* AppCoordinator.swift */; };
 		5B08AADB25CD350100292355 /* NotebookViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B08AADA25CD350100292355 /* NotebookViewModel.swift */; };
 		5B08AADE25CD351200292355 /* NotebookCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B08AADD25CD351200292355 /* NotebookCellViewModel.swift */; };
-		5B08AAE325CD356A00292355 /* NotebookViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B08AAE225CD356A00292355 /* NotebookViewController.swift */; };
+		5B08AAE325CD356A00292355 /* NotebookListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B08AAE225CD356A00292355 /* NotebookListViewController.swift */; };
 		5B08AAE625CD35BB00292355 /* NotebookCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B08AAE525CD35BB00292355 /* NotebookCoordinator.swift */; };
+		5B0E35EA25CDA3BD0012C206 /* NoteListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B0E35E925CDA3BD0012C206 /* NoteListViewController.swift */; };
+		5B0E35EF25CDA5320012C206 /* NoteListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B0E35EE25CDA5320012C206 /* NoteListViewModel.swift */; };
+		5B0E35F325CDA53F0012C206 /* NoteListCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B0E35F225CDA53F0012C206 /* NoteListCellViewModel.swift */; };
+		5B0E35F625CDA5640012C206 /* NoteListViewModelDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B0E35F525CDA5640012C206 /* NoteListViewModelDelegate.swift */; };
 		5B33438025CC5AE3008EDA12 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B33437F25CC5AE3008EDA12 /* AppDelegate.swift */; };
 		5B33438225CC5AE3008EDA12 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B33438125CC5AE3008EDA12 /* SceneDelegate.swift */; };
 		5B33438925CC5AE4008EDA12 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5B33438825CC5AE4008EDA12 /* Assets.xcassets */; };
@@ -23,6 +27,14 @@
 		5B86D17C25CD4D7400D0FF84 /* NotebookCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5B86D17A25CD4D7400D0FF84 /* NotebookCell.xib */; };
 		5B86D18025CD4DE500D0FF84 /* NotebookMockModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B86D17F25CD4DE500D0FF84 /* NotebookMockModel.swift */; };
 		5B86D18425CD579E00D0FF84 /* NotebookViewModelDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B86D18325CD579E00D0FF84 /* NotebookViewModelDelegate.swift */; };
+		5BBF299425CDACE400FCB637 /* NoteMockModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BBF299325CDACE400FCB637 /* NoteMockModel.swift */; };
+		5BBF299725CDAF5400FCB637 /* AddNoteCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BBF299625CDAF5400FCB637 /* AddNoteCoordinator.swift */; };
+		5BBF299B25CDB02B00FCB637 /* NoteViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BBF299A25CDB02B00FCB637 /* NoteViewModel.swift */; };
+		5BBF299F25CDB07800FCB637 /* NoteViewModelDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BBF299E25CDB07800FCB637 /* NoteViewModelDelegate.swift */; };
+		5BBF29A625CDB0A900FCB637 /* NoteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BBF29A425CDB0A900FCB637 /* NoteViewController.swift */; };
+		5BBF29A725CDB0A900FCB637 /* NoteViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5BBF29A525CDB0A900FCB637 /* NoteViewController.xib */; };
+		5BBF29AC25CDB16600FCB637 /* NoteListCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BBF29AB25CDB16600FCB637 /* NoteListCoordinator.swift */; };
+		5BBF29AF25CDB19A00FCB637 /* NoteListCoordinatorDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BBF29AE25CDB19A00FCB637 /* NoteListCoordinatorDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,8 +42,12 @@
 		5B08AACB25CD334D00292355 /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
 		5B08AADA25CD350100292355 /* NotebookViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotebookViewModel.swift; sourceTree = "<group>"; };
 		5B08AADD25CD351200292355 /* NotebookCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotebookCellViewModel.swift; sourceTree = "<group>"; };
-		5B08AAE225CD356A00292355 /* NotebookViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotebookViewController.swift; sourceTree = "<group>"; };
+		5B08AAE225CD356A00292355 /* NotebookListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotebookListViewController.swift; sourceTree = "<group>"; };
 		5B08AAE525CD35BB00292355 /* NotebookCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotebookCoordinator.swift; sourceTree = "<group>"; };
+		5B0E35E925CDA3BD0012C206 /* NoteListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteListViewController.swift; sourceTree = "<group>"; };
+		5B0E35EE25CDA5320012C206 /* NoteListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteListViewModel.swift; sourceTree = "<group>"; };
+		5B0E35F225CDA53F0012C206 /* NoteListCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteListCellViewModel.swift; sourceTree = "<group>"; };
+		5B0E35F525CDA5640012C206 /* NoteListViewModelDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteListViewModelDelegate.swift; sourceTree = "<group>"; };
 		5B33437C25CC5AE3008EDA12 /* TheNotebookApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TheNotebookApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5B33437F25CC5AE3008EDA12 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5B33438125CC5AE3008EDA12 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -44,6 +60,14 @@
 		5B86D17A25CD4D7400D0FF84 /* NotebookCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NotebookCell.xib; sourceTree = "<group>"; };
 		5B86D17F25CD4DE500D0FF84 /* NotebookMockModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotebookMockModel.swift; sourceTree = "<group>"; };
 		5B86D18325CD579E00D0FF84 /* NotebookViewModelDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotebookViewModelDelegate.swift; sourceTree = "<group>"; };
+		5BBF299325CDACE400FCB637 /* NoteMockModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteMockModel.swift; sourceTree = "<group>"; };
+		5BBF299625CDAF5400FCB637 /* AddNoteCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNoteCoordinator.swift; sourceTree = "<group>"; };
+		5BBF299A25CDB02B00FCB637 /* NoteViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteViewModel.swift; sourceTree = "<group>"; };
+		5BBF299E25CDB07800FCB637 /* NoteViewModelDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteViewModelDelegate.swift; sourceTree = "<group>"; };
+		5BBF29A425CDB0A900FCB637 /* NoteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteViewController.swift; sourceTree = "<group>"; };
+		5BBF29A525CDB0A900FCB637 /* NoteViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NoteViewController.xib; sourceTree = "<group>"; };
+		5BBF29AB25CDB16600FCB637 /* NoteListCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteListCoordinator.swift; sourceTree = "<group>"; };
+		5BBF29AE25CDB19A00FCB637 /* NoteListCoordinatorDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteListCoordinatorDelegate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,6 +99,8 @@
 				5B08AAC625CD30D700292355 /* Coordinator.swift */,
 				5B08AACB25CD334D00292355 /* AppCoordinator.swift */,
 				5B08AAE525CD35BB00292355 /* NotebookCoordinator.swift */,
+				5BBF299625CDAF5400FCB637 /* AddNoteCoordinator.swift */,
+				5BBF29AB25CDB16600FCB637 /* NoteListCoordinator.swift */,
 			);
 			path = Coordinators;
 			sourceTree = "<group>";
@@ -82,7 +108,8 @@
 		5B08AACF25CD348400292355 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				5B08AAE225CD356A00292355 /* NotebookViewController.swift */,
+				5BBF29A325CDB09700FCB637 /* Note */,
+				5BBF29A225CDB08A00FCB637 /* Notebook */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -90,9 +117,10 @@
 		5B08AAD025CD348C00292355 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				5BBF299925CDB01900FCB637 /* Note */,
+				5B0E35ED25CDA51A0012C206 /* NoteList */,
+				5B0E35EC25CDA50C0012C206 /* Notebook */,
 				5B08AAE025CD351900292355 /* ViewModelProtocols */,
-				5B08AADA25CD350100292355 /* NotebookViewModel.swift */,
-				5B08AADD25CD351200292355 /* NotebookCellViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -101,6 +129,7 @@
 			isa = PBXGroup;
 			children = (
 				5B86D17F25CD4DE500D0FF84 /* NotebookMockModel.swift */,
+				5BBF299325CDACE400FCB637 /* NoteMockModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -108,6 +137,7 @@
 		5B08AAD225CD34A000292355 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				5BBF29A525CDB0A900FCB637 /* NoteViewController.xib */,
 				5B86D17925CD4D7400D0FF84 /* NotebookCell.swift */,
 				5B86D17A25CD4D7400D0FF84 /* NotebookCell.xib */,
 			);
@@ -126,6 +156,8 @@
 			isa = PBXGroup;
 			children = (
 				5B86D18325CD579E00D0FF84 /* NotebookViewModelDelegate.swift */,
+				5B0E35F525CDA5640012C206 /* NoteListViewModelDelegate.swift */,
+				5BBF299E25CDB07800FCB637 /* NoteViewModelDelegate.swift */,
 			);
 			path = ViewModelProtocols;
 			sourceTree = "<group>";
@@ -134,8 +166,27 @@
 			isa = PBXGroup;
 			children = (
 				5B854F0125CD479D00F80353 /* NotebookCoodinatorDelegate.swift */,
+				5BBF29AE25CDB19A00FCB637 /* NoteListCoordinatorDelegate.swift */,
 			);
 			path = CoordinatorProtocols;
+			sourceTree = "<group>";
+		};
+		5B0E35EC25CDA50C0012C206 /* Notebook */ = {
+			isa = PBXGroup;
+			children = (
+				5B08AADA25CD350100292355 /* NotebookViewModel.swift */,
+				5B08AADD25CD351200292355 /* NotebookCellViewModel.swift */,
+			);
+			path = Notebook;
+			sourceTree = "<group>";
+		};
+		5B0E35ED25CDA51A0012C206 /* NoteList */ = {
+			isa = PBXGroup;
+			children = (
+				5B0E35EE25CDA5320012C206 /* NoteListViewModel.swift */,
+				5B0E35F225CDA53F0012C206 /* NoteListCellViewModel.swift */,
+			);
+			path = NoteList;
 			sourceTree = "<group>";
 		};
 		5B33437325CC5AE3008EDA12 = {
@@ -175,6 +226,31 @@
 				5B854EFD25CD44A900F80353 /* UIView+Ext.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		5BBF299925CDB01900FCB637 /* Note */ = {
+			isa = PBXGroup;
+			children = (
+				5BBF299A25CDB02B00FCB637 /* NoteViewModel.swift */,
+			);
+			path = Note;
+			sourceTree = "<group>";
+		};
+		5BBF29A225CDB08A00FCB637 /* Notebook */ = {
+			isa = PBXGroup;
+			children = (
+				5B08AAE225CD356A00292355 /* NotebookListViewController.swift */,
+				5B0E35E925CDA3BD0012C206 /* NoteListViewController.swift */,
+			);
+			path = Notebook;
+			sourceTree = "<group>";
+		};
+		5BBF29A325CDB09700FCB637 /* Note */ = {
+			isa = PBXGroup;
+			children = (
+				5BBF29A425CDB0A900FCB637 /* NoteViewController.swift */,
+			);
+			path = Note;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -234,6 +310,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5BBF29A725CDB0A900FCB637 /* NoteViewController.xib in Resources */,
 				5B86D17C25CD4D7400D0FF84 /* NotebookCell.xib in Resources */,
 				5B33438C25CC5AE4008EDA12 /* LaunchScreen.storyboard in Resources */,
 				5B33438925CC5AE4008EDA12 /* Assets.xcassets in Resources */,
@@ -247,19 +324,30 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5BBF299B25CDB02B00FCB637 /* NoteViewModel.swift in Sources */,
 				5B854F0225CD479D00F80353 /* NotebookCoodinatorDelegate.swift in Sources */,
 				5B08AAC725CD30D700292355 /* Coordinator.swift in Sources */,
 				5B08AAE625CD35BB00292355 /* NotebookCoordinator.swift in Sources */,
 				5B08AADE25CD351200292355 /* NotebookCellViewModel.swift in Sources */,
+				5B0E35F325CDA53F0012C206 /* NoteListCellViewModel.swift in Sources */,
 				5B08AACC25CD334D00292355 /* AppCoordinator.swift in Sources */,
+				5BBF299725CDAF5400FCB637 /* AddNoteCoordinator.swift in Sources */,
+				5B0E35EF25CDA5320012C206 /* NoteListViewModel.swift in Sources */,
+				5BBF299F25CDB07800FCB637 /* NoteViewModelDelegate.swift in Sources */,
 				5B86D17B25CD4D7400D0FF84 /* NotebookCell.swift in Sources */,
 				5B86D18025CD4DE500D0FF84 /* NotebookMockModel.swift in Sources */,
 				5B33438025CC5AE3008EDA12 /* AppDelegate.swift in Sources */,
+				5B0E35F625CDA5640012C206 /* NoteListViewModelDelegate.swift in Sources */,
+				5BBF29A625CDB0A900FCB637 /* NoteViewController.swift in Sources */,
+				5B0E35EA25CDA3BD0012C206 /* NoteListViewController.swift in Sources */,
 				5B86D18425CD579E00D0FF84 /* NotebookViewModelDelegate.swift in Sources */,
 				5B854EFE25CD44A900F80353 /* UIView+Ext.swift in Sources */,
-				5B08AAE325CD356A00292355 /* NotebookViewController.swift in Sources */,
+				5B08AAE325CD356A00292355 /* NotebookListViewController.swift in Sources */,
+				5BBF299425CDACE400FCB637 /* NoteMockModel.swift in Sources */,
 				5B33438225CC5AE3008EDA12 /* SceneDelegate.swift in Sources */,
 				5B08AADB25CD350100292355 /* NotebookViewModel.swift in Sources */,
+				5BBF29AC25CDB16600FCB637 /* NoteListCoordinator.swift in Sources */,
+				5BBF29AF25CDB19A00FCB637 /* NoteListCoordinatorDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

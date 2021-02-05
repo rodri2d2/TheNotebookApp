@@ -7,7 +7,7 @@
 
 import UIKit
 
-class NotebookViewController: UIViewController{
+class NotebookListViewController: UIViewController{
 
     // MARK: - Class properties
     private var viewModel: NotebookViewModel
@@ -32,7 +32,7 @@ class NotebookViewController: UIViewController{
         self.viewModel.delegate = self
         self.viewModel.viewWasLoad()
         //
-        setupNavigationControllerStyleAndItems()
+        setupNavigationBarStyleAndItems()
         //
         setupOutletsSytlesAndItems()
         
@@ -76,7 +76,7 @@ class NotebookViewController: UIViewController{
     }
     
     // MARK: - Class functionalities
-    private func setupNavigationControllerStyleAndItems(){
+    private func setupNavigationBarStyleAndItems(){
         //
         self.title = viewModel.title
         //
@@ -110,7 +110,7 @@ class NotebookViewController: UIViewController{
 }
 
 // MARK: - Extension for NotebookViewModelDelegate
-extension NotebookViewController: NotebookViewModelDelegate{
+extension NotebookListViewController: NotebookViewModelDelegate{
     func dataDidChange() {
         self.tablewView.reloadData()
     }
@@ -119,7 +119,7 @@ extension NotebookViewController: NotebookViewModelDelegate{
 }
 
 // MARK: - Extension for UITableViewDataSource
-extension NotebookViewController: UITableViewDataSource{
+extension NotebookListViewController: UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.viewModel.numberOfNotebooks()
     }
@@ -134,9 +134,12 @@ extension NotebookViewController: UITableViewDataSource{
 }
 
 // MARK: - Extension for UITableViewDelegate
-extension NotebookViewController: UITableViewDelegate{
+extension NotebookListViewController: UITableViewDelegate{
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+           
+        self.viewModel.cellWasSelected(at: indexPath)
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return CGFloat(100)
