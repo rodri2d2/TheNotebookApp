@@ -10,6 +10,7 @@ import Foundation
 class NoteListViewModel{
     
     var title: String
+    var coordinatorDelegate: NoteListCoordinatorDelegate?
     var delegate: NoteListViewModelDelegate?
     private var notebook: NotebookMockModel
     
@@ -17,6 +18,10 @@ class NoteListViewModel{
     init(notebook: NotebookMockModel) {
         self.notebook = notebook
         self.title = notebook.title
+    }
+    
+    func plusButtonWasPressed(){
+        self.coordinatorDelegate?.didPressPlusButton()
     }
     
 }

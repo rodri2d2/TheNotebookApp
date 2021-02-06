@@ -6,3 +6,15 @@
 //
 
 import Foundation
+
+
+class NoteViewModel {
+    
+    var delegate: NoteViewModelDelegate?
+    var coordinatorDelegate: AddNoteCoordinator?
+
+    func cancelButtonWasPressed(){
+        
+    }
+     
+}

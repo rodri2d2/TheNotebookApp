@@ -24,8 +24,13 @@ class AddNoteCoordinator: Coordinator{
     // MARK: - Coordinator protocol functionalities
     func start() {
         
+        let noteViewController = NoteViewController()
+        let navigationController = UINavigationController(rootViewController: noteViewController)
         
         
+        navigationController.modalPresentationStyle = .fullScreen
+        navigationController.modalTransitionStyle = .flipHorizontal
+        self.presenter.present(navigationController, animated: true, completion: nil)
     }
     
     func finish() {

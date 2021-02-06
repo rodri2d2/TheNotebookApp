@@ -12,18 +12,24 @@ class NoteViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        //
+        setupNavigationBarStyleAndItems()
     }
-
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    
+    
+    private func setupNavigationBarStyleAndItems(){
+        
+        self.title = "Notes"
+        
+        let backButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(didPressCancelButton))
+        navigationItem.leftBarButtonItem = backButtonItem
+        
+        
     }
-    */
-
+    
+    // MARK: - Actions
+    @objc private func didPressCancelButton(){
+        
+    }
+    
 }

@@ -34,7 +34,7 @@ class NoteListViewController: UIViewController {
     
     // MARK: - Actions
     @objc private func didPressPlusButton(){
-        
+        self.viewModel.plusButtonWasPressed()
     }
     
     @objc private func didPressRemoveAllButton(){

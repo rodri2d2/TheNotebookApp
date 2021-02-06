@@ -47,6 +47,7 @@ class NotebookCoordinator: Coordinator{
             let noteViewModel = NoteListViewModel(notebook: noteBook)
             let noteListViewController = NoteListViewController(noteViewModel: noteViewModel)
             noteViewModel.delegate = noteListViewController
+            noteViewModel.coordinatorDelegate = self
             
             //
             self.presenter.pushViewController(noteListViewController, animated: true)
@@ -56,5 +57,14 @@ class NotebookCoordinator: Coordinator{
         func childDidFinish() {
             
         }
-    
+}
+// MARK: - Extension for NoteListCoordinatorDelegate
+extension NotebookCoordinator: NoteListCoordinatorDelegate{
+    func didPressPlusButton() {
+        print("On Note List coordinator")
+        let addNoteCoordinator = AddNoteCoordinator(notePresenter: self.presenter)
+        self.childrem.append(addNoteCoordinator)
+        addNoteCoordinator.start()
+        
+    }
 }
