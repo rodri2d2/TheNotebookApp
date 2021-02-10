@@ -61,10 +61,17 @@ class NotebookCoordinator: Coordinator{
 // MARK: - Extension for NoteListCoordinatorDelegate
 extension NotebookCoordinator: NoteListCoordinatorDelegate{
     func didPressPlusButton() {
-        print("On Note List coordinator")
+        
         let addNoteCoordinator = AddNoteCoordinator(notePresenter: self.presenter)
         self.childrem.append(addNoteCoordinator)
         addNoteCoordinator.start()
         
+        addNoteCoordinator.onCancel = {[weak self] in
+            guard let self = self else { return }
+            addNoteCoordinator.finish()
+            
+            //TODO: - For next version of this app, change Coordinador, to be much easier to remove a Child Coordinator. This app actually has only one child so the code below is aceptable 
+            self.childrem.removeAll()
+        }
     }
 }

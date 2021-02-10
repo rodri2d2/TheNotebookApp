@@ -62,7 +62,6 @@ class NotebookListViewController: UIViewController{
             else{return}
             
             if !title.isEmpty{
-                print(title)
                 self?.viewModel.plusButtonWasPressed(title: title, description: description)
             }
         }))
@@ -138,7 +137,6 @@ extension NotebookListViewController: UITableViewDelegate{
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-           
         self.viewModel.cellWasSelected(at: indexPath)
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -146,4 +144,10 @@ extension NotebookListViewController: UITableViewDelegate{
     }
     
 }
+
+
+
+
+
+
 

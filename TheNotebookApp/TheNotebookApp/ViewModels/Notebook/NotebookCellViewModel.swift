@@ -21,4 +21,10 @@ class NotebookCellViewModel {
         self.description = notebook.decription
         self.createdAt   = notebook.createdAt
     }
+    
+    func notebookModel() -> NotebookMockModel{
+        return self.notebook
+    }
+    
+    
 }

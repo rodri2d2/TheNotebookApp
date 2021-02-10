@@ -9,17 +9,21 @@ import Foundation
 
 class NoteListViewModel{
     
+    // MARK: - Class properties
     var title: String
+    var delegate:            NoteListViewModelDelegate?
     var coordinatorDelegate: NoteListCoordinatorDelegate?
-    var delegate: NoteListViewModelDelegate?
-    private var notebook: NotebookMockModel
+    var cells:               [NoteListCellViewModel] = []
+    private var notebook:    NotebookMockModel
     
     
+    // MARK: - Lifecycle
     init(notebook: NotebookMockModel) {
         self.notebook = notebook
         self.title = notebook.title
     }
     
+    // MARK: - Class functionalities
     func plusButtonWasPressed(){
         self.coordinatorDelegate?.didPressPlusButton()
     }

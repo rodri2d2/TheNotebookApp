@@ -32,8 +32,7 @@ class NotebookViewModel{
     
     func cellWasSelected(at indexPath: IndexPath){
         
-        let notebook = NotebookMockModel(title: "TEst", decription: "TESt", createdAt: Date(), notas: nil)
-        
+        let notebook = cells[indexPath.row].notebookModel()
         self.coordinatorDelegate?.didSelectANotebook(noteBook: notebook)
     }
 
