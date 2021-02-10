@@ -11,21 +11,25 @@ class NotebookCoordinator: Coordinator{
     
     // MARK: - Class properties
     private let presenter: UINavigationController
+    private let dataManager: LocalDataManager
     
     // MARK: - Coordinator protocol properties
     var childrem: [Coordinator] = []
     
     
     // MARK: - Lyfecycle
-    init(appPresenter: UINavigationController) {
+    init(appPresenter: UINavigationController, localDataManager: LocalDataManager) {
         self.presenter = appPresenter
+        self.dataManager = localDataManager
     }
     
     
     // MARK: - Coordinator protocol functionalities
     func start() {
         //
-        let viewModel = NotebookViewModel()
+        let viewModel = NotebookViewModel(localDataManager: self.dataManager)
+        
+        
         viewModel.coordinatorDelegate = self
         let notebookController = NotebookListViewController(notebookViewModel: viewModel)
         //
@@ -42,9 +46,9 @@ class NotebookCoordinator: Coordinator{
     extension NotebookCoordinator: NotebookCoodinatorDelegate{
         
         
-        func didSelectANotebook(noteBook: NotebookMockModel) {
+        func didSelectANotebook(notebook: NotebookMO) {
             //
-            let noteViewModel = NoteListViewModel(notebook: noteBook)
+            let noteViewModel = NoteListViewModel(notebook: notebook)
             let noteListViewController = NoteListViewController(noteViewModel: noteViewModel)
             noteViewModel.delegate = noteListViewController
             noteViewModel.coordinatorDelegate = self

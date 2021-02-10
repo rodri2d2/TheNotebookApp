@@ -11,13 +11,19 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
     var appCoordinator: AppCoordinator?
+    var localDataManager:   LocalDataManager?
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
 
+        
+        //Initialize DataManager
+        self.localDataManager = LocalDataManager(modelName: "NotebookApp", optionalStoreName: "NotebookApp")
+        
+        
         guard let windowScene = (scene as? UIWindowScene) else { return }
         let window = UIWindow(windowScene: windowScene)
         self.window = window
-        self.appCoordinator = AppCoordinator(appWindow: window)
+        self.appCoordinator = AppCoordinator(appWindow: window, localDataManager: self.localDataManager!)
         appCoordinator?.start()
         
     }

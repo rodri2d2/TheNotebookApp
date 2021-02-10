@@ -120,12 +120,12 @@ extension NotebookListViewController: NotebookViewModelDelegate{
 // MARK: - Extension for UITableViewDataSource
 extension NotebookListViewController: UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.viewModel.numberOfNotebooks()
+        return self.viewModel.numberOfRows(in: section)
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cellViewModel = self.viewModel.cellWasLoad(at: indexPath.row)
+        let cellViewModel = self.viewModel.cellWasLoad(at: indexPath)
         let cell = tableView.dequeueReusableCell(withIdentifier: NotebookCell.IDENTIFIER, for: indexPath) as! NotebookCell
         cell.viewModel = cellViewModel
         return cell

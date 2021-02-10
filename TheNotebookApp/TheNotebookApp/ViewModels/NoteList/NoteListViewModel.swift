@@ -14,13 +14,13 @@ class NoteListViewModel{
     var delegate:            NoteListViewModelDelegate?
     var coordinatorDelegate: NoteListCoordinatorDelegate?
     var cells:               [NoteListCellViewModel] = []
-    private var notebook:    NotebookMockModel
+    private var notebook:    NotebookMO
     
     
     // MARK: - Lifecycle
-    init(notebook: NotebookMockModel) {
+    init(notebook: NotebookMO) {
         self.notebook = notebook
-        self.title = notebook.title
+        self.title = notebook.title!
     }
     
     // MARK: - Class functionalities

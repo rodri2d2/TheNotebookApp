@@ -18,6 +18,8 @@ class NotebookCell: UITableViewCell {
             notebookDescription.text = viewModel.description
             let stringDate = dateFormatter.string(from: viewModel.createdAt)
             notebookCreatedDate.text = stringDate
+            setupNotesLabel(numberOfNotes: viewModel.numberOfNotes)
+            
         }
     }
     private lazy var dateFormatter: DateFormatter = {
@@ -30,6 +32,8 @@ class NotebookCell: UITableViewCell {
     @IBOutlet weak var noteboolTitle:       UILabel!
     @IBOutlet weak var notebookDescription: UILabel!
     @IBOutlet weak var notebookCreatedDate: UILabel!
+    @IBOutlet weak var notesWordLabel: UILabel!
+    @IBOutlet weak var numberOfNotesLabel: UILabel!
     @IBOutlet weak var supportView:         UIView!
     
     
@@ -45,16 +49,18 @@ class NotebookCell: UITableViewCell {
     
     // MARK: - Class functionalities
     private func setupOutletsStylesAndItems(){
-        
         supportView.layer.cornerRadius = 10
         supportView.layer.borderWidth  = 1
         supportView.layer.borderColor = UIColor.lightGray.cgColor
-        
-//
-////        supportView.layer.shadowColor = UIColor.gray.cgColor
-//        supportView.layer.shadowOffset = CGSize.zero
-//        supportView.layer.shadowOpacity = 0.2
-//        supportView.layer.shadowRadius = 1
+    }
+    
+    private func setupNotesLabel(numberOfNotes: Int){
+        if numberOfNotes >= 1{
+            numberOfNotesLabel.textColor = .systemOrange
+            notesWordLabel.textColor = .systemOrange
+            numberOfNotesLabel.text = String(numberOfNotes)
+            notesWordLabel.text = "notes"
+        }
     }
     
 }

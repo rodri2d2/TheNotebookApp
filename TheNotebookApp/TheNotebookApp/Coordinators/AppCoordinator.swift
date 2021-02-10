@@ -20,13 +20,15 @@ class AppCoordinator: Coordinator{
     
     // MARK: - Class properties
     private var window: UIWindow
+    private var dataManager: LocalDataManager
  
     // MARK: - Coordinator Protrocol Properties
     var childrem: [Coordinator] = []
     
     // MARK: - Lifecycle
-    init(appWindow: UIWindow) {
+    init(appWindow: UIWindow, localDataManager: LocalDataManager) {
         self.window = appWindow
+        self.dataManager = localDataManager
     }
     
     // MARK: - Coordinator Protrocol Functionalities
@@ -34,7 +36,7 @@ class AppCoordinator: Coordinator{
         //
         let navigationController = UINavigationController()
         //
-        let notebookCoordinator = NotebookCoordinator(appPresenter: navigationController)
+        let notebookCoordinator = NotebookCoordinator(appPresenter: navigationController, localDataManager: self.dataManager)
         self.childrem.append(notebookCoordinator)
         notebookCoordinator.start()
         //
