@@ -13,7 +13,7 @@ class NoteListViewController: UIViewController {
     private let viewModel: NoteListViewModel
     
     // MARK: - Outlets
-    var tablewView: UITableView!
+    private var tablewView: UITableView!
     
     // MARK: - Lyfecycle
     init(noteViewModel: NoteListViewModel) {

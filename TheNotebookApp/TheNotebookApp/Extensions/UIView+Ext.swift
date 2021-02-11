@@ -56,10 +56,10 @@ extension UIView {
      Being at some ViewController or a Class that has a implementation of UIView, make it conforms to UITableViewDelegate and UITableViewDataSource and pass self in both parameters
      ~~~
      class ViewController: UIViewController {
-     override func viewDidLoad() {
-     super.viewDidLoad()
-        let tableView = self.view.createTableView(delegate: self, dataSource: self)
-     }
+         override func viewDidLoad() {
+         super.viewDidLoad()
+            let tableView = self.view.createTableView(delegate: self, dataSource: self)
+         }
      }
      ~~~
      */
@@ -69,4 +69,34 @@ extension UIView {
         tableView.dataSource = dataSource
         return tableView
     }
+    
+    /**
+     CreateCollectionView - Use this function create a simple UICollectionView with delegate, data source and orientarion
+     - Parameters:
+        - delegate: type of class tha implemente UITableViewDelegate
+        - dataSpurce: type of class tha implemente UITableViewDataSource
+        - orientation: type of UICollectionViewDataSource
+     
+     ## Example
+     
+     Being at some ViewController or a Class that has a implementation of UIView, make it conforms to UICollectionViewDelegate and UICollectionViewDataSource and pass self in both parameters and orientation
+     ~~~
+     class ViewController: UIViewController {
+         override func viewDidLoad() {
+         super.viewDidLoad()
+            let collectionView = self.view.createCollectionView(delegate: self, dataSource: self, orientation: .vertical)
+         }
+     }
+     ~~~
+     */
+    func createCollectionView(delegate: UICollectionViewDelegate, dataSource: UICollectionViewDataSource, orientation:  UICollectionView.ScrollDirection) -> UICollectionView{
+       
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = orientation
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.delegate   = delegate
+        collectionView.dataSource = dataSource
+        return collectionView
+    }
+    
 }
