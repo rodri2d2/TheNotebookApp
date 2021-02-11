@@ -27,10 +27,13 @@ class NoteListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.viewModel.viewWasLoad()
         //
         setupNavigationBarStyleAndItems()
         setupOutletsStyleAndItems()
     }
+    
     
     // MARK: - Actions
     @objc private func didPressPlusButton(){
@@ -68,7 +71,7 @@ class NoteListViewController: UIViewController {
     
     private func setupOutletsStyleAndItems(){
         self.tablewView = self.view.createTableView(delegate: self, dataSource: self)
-//        self.tablewView.register(UINib(nibName: NotebookCell.IDENTIFIER, bundle: .main), forCellReuseIdentifier: NotebookCell.IDENTIFIER)
+        self.tablewView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
         self.view.addSubview(self.tablewView)
         self.tablewView.pin(to: self.view)
 //        tablewView.separatorStyle = .none
@@ -80,12 +83,14 @@ class NoteListViewController: UIViewController {
 // MARK: - Extension for UITableViewDataSource
 extension NoteListViewController: UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return viewModel.numberOfRows(in: section)
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell()
-        cell.textLabel?.text = "Cell \(indexPath.row)"
+        let cellViewModel = self.viewModel.cellWasLoad(at: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+        cell.textLabel?.text = cellViewModel?.noteTitle
+        cell.detailTextLabel?.text = cellViewModel?.noteContent
         return cell
     }
 }
@@ -98,4 +103,8 @@ extension NoteListViewController: UITableViewDelegate{
 }
 
 
-extension NoteListViewController: NoteListViewModelDelegate{}
+extension NoteListViewController: NoteListViewModelDelegate{
+    func didChange() {
+        self.tablewView.reloadData()
+    }
+}

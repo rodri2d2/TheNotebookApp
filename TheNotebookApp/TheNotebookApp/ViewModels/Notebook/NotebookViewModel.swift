@@ -92,12 +92,14 @@ class NotebookViewModel: NSObject{
     /// Trigger this function when select a cell
     /// - Parameter indexPath: type of IndexPath
     func cellWasSelected(at indexPath: IndexPath) {
-        let notebook = cells[indexPath.row].notebookModel()
+        guard let notebook = fetchResultsController?.object(at: indexPath) as? NotebookMO else {
+            fatalError("Attempt to configure cell without a managed object")
+        }
         self.coordinatorDelegate?.didSelectANotebook(notebook: notebook)
     }
+
     
     //Actions Related
-    
     /// Trigger this function to add a new Notebook
     /// - Parameters:
     ///   - title: type of String
@@ -125,24 +127,24 @@ extension NotebookViewModel: NSFetchedResultsControllerDelegate {
     
     // will change
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        print("Will Change")
+//        print("Will Change")
     }
     
     // did change a section.
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType){
-        print("did change a section")
+//        print("did change a section")
     }
     
     // did change an object.
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
-        print("did change an object")
+//        print("did change an object")
         self.delegate?.dataDidChange()
         
     }
     
     // did change content.
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        print("did change content.")
+//        print("did change content.")
     }
     
 }

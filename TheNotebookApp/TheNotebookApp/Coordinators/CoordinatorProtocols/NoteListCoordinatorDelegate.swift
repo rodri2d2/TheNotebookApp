@@ -8,5 +8,5 @@
 import Foundation
 
 protocol NoteListCoordinatorDelegate {
-    func didPressPlusButton()
+    func didPressPlusButton(belongsTo: NotebookMO)
 }

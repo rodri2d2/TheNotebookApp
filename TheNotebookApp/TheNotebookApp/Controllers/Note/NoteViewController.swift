@@ -13,6 +13,11 @@ class NoteViewController: UIViewController {
     private let viewModel: AddNoteViewModel
     
     
+    // MARK: - Outlets
+    
+    @IBOutlet weak var noteTitleTextField: UITextField!
+    @IBOutlet weak var noteContentTextField: UITextField!
+    
     // MARK: - Lifecycle
     init(addNoteViewModel: AddNoteViewModel) {
         self.viewModel = addNoteViewModel
@@ -47,4 +52,13 @@ class NoteViewController: UIViewController {
         self.viewModel.cancelButtonWasPressed()
     }
     
+    @IBAction func didPressCreateButton(_ sender: UIButton) {
+        
+        if !noteTitleTextField.text!.isEmpty {
+            let title = noteTitleTextField.text!
+            let content = "note content"
+            viewModel.createButtonWasPressed(title: title, content: content)
+        }
+
+    }
 }

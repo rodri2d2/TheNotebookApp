@@ -13,11 +13,24 @@ class AddNoteViewModel {
     // MARK: - Class properties
     var delegate:            NoteViewModelDelegate?
     var coordinatorDelegate: AddNoteCoodinatorDelegate?
-
-    // MARK: - Lifecycle
+    private var dataManager: LocalDataManager
+    private var notebook: NotebookMO
     
+    // MARK: - Lifecycle
+    init(localDataManager: LocalDataManager, notebook: NotebookMO) {
+        self.dataManager = localDataManager
+        self.notebook = notebook
+    }
     
     // MARK: - Class functionalities
+    func createButtonWasPressed(title: String, content: String){
+        
+        let _ = NoteMO.createNote(title: title, content: content, belongsTo: self.notebook, in: dataManager.viewContext)
+        
+        self.coordinatorDelegate?.didCreated()
+        
+    }
+    
     func cancelButtonWasPressed(){
         self.coordinatorDelegate?.didCancel()
     }

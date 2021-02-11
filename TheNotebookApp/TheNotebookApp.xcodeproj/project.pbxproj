@@ -265,7 +265,6 @@
 			isa = PBXGroup;
 			children = (
 				5B08AAE225CD356A00292355 /* NotebookListViewController.swift */,
-				5B0E35E925CDA3BD0012C206 /* NoteListViewController.swift */,
 			);
 			path = Notebook;
 			sourceTree = "<group>";
@@ -274,6 +273,7 @@
 			isa = PBXGroup;
 			children = (
 				5BBF29A425CDB0A900FCB637 /* NoteViewController.swift */,
+				5B0E35E925CDA3BD0012C206 /* NoteListViewController.swift */,
 			);
 			path = Note;
 			sourceTree = "<group>";

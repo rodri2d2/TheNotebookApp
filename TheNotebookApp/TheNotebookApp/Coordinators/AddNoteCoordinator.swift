@@ -13,6 +13,8 @@ class AddNoteCoordinator: Coordinator{
     // MARK: - Class properties
     private let presenter: UINavigationController
     private var addNoteNavigationController: UINavigationController?
+    private let dataManager: LocalDataManager
+    private let notebook: NotebookMO
     var onCancel:  (() -> Void)?
     var onCreated: (() -> Void)?
     
@@ -20,14 +22,17 @@ class AddNoteCoordinator: Coordinator{
     var childrem: [Coordinator] = []
     
     
-    init(notePresenter: UINavigationController) {
+    init(notePresenter: UINavigationController, localDataManager: LocalDataManager, belongsTo: NotebookMO) {
         self.presenter = notePresenter
+        self.dataManager = localDataManager
+        self.notebook = belongsTo
+        
     }
     
     // MARK: - Coordinator protocol functionalities
     func start() {
         
-        let addNoteViewModel = AddNoteViewModel()
+        let addNoteViewModel = AddNoteViewModel(localDataManager: self.dataManager, notebook: self.notebook)
         addNoteViewModel.coordinatorDelegate = self
         
         let noteViewController = NoteViewController(addNoteViewModel: addNoteViewModel)
@@ -49,6 +54,10 @@ class AddNoteCoordinator: Coordinator{
 }
 
 extension AddNoteCoordinator: AddNoteCoodinatorDelegate{
+    func didCreated() {
+        onCreated?()
+    }
+    
     func didCancel() {
         onCancel?()
     }

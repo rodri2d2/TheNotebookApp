@@ -48,7 +48,7 @@ class NotebookCoordinator: Coordinator{
         
         func didSelectANotebook(notebook: NotebookMO) {
             //
-            let noteViewModel = NoteListViewModel(notebook: notebook)
+            let noteViewModel = NoteListViewModel(notebook: notebook, localDataManager: self.dataManager)
             let noteListViewController = NoteListViewController(noteViewModel: noteViewModel)
             noteViewModel.delegate = noteListViewController
             noteViewModel.coordinatorDelegate = self
@@ -63,19 +63,31 @@ class NotebookCoordinator: Coordinator{
         }
 }
 // MARK: - Extension for NoteListCoordinatorDelegate
-extension NotebookCoordinator: NoteListCoordinatorDelegate{
-    func didPressPlusButton() {
-        
-        let addNoteCoordinator = AddNoteCoordinator(notePresenter: self.presenter)
-        self.childrem.append(addNoteCoordinator)
-        addNoteCoordinator.start()
-        
-        addNoteCoordinator.onCancel = {[weak self] in
-            guard let self = self else { return }
-            addNoteCoordinator.finish()
+    extension NotebookCoordinator: NoteListCoordinatorDelegate{
+        func didPressPlusButton(belongsTo: NotebookMO) {
             
-            //TODO: - For next version of this app, change Coordinador, to be much easier to remove a Child Coordinator. This app actually has only one child so the code below is aceptable 
-            self.childrem.removeAll()
+            let addNoteCoordinator = AddNoteCoordinator(notePresenter: self.presenter, localDataManager: self.dataManager, belongsTo: belongsTo)
+            self.childrem.append(addNoteCoordinator)
+            addNoteCoordinator.start()
+    
+            addNoteCoordinator.onCreated = { [weak self] in
+                guard let self = self else { return }
+                
+                self.dataManager.saveContext()
+                addNoteCoordinator.finish()
+                self.childrem.removeAll()
+                
+            }
+            
+            
+            addNoteCoordinator.onCancel = {[weak self] in
+                guard let self = self else { return }
+                addNoteCoordinator.finish()
+                
+                //TODO: - For next version of this app, change Coordinador, to be much easier to remove a Child Coordinator. This app actually has only one child so the code below is aceptable
+                self.childrem.removeAll()
         }
+        
+
     }
 }

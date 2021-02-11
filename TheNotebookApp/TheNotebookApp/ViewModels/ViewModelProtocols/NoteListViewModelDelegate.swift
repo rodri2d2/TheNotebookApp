@@ -9,4 +9,6 @@ import Foundation
 
 protocol NoteListViewModelDelegate {
     
+    func didChange()
+    
 }
