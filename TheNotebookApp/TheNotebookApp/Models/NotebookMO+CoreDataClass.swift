@@ -23,4 +23,18 @@ public class NotebookMO: NSManagedObject {
         return notebook
         
     }
+    
+    static func deleteNotebooks(context: NSManagedObjectContext){
+        
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Notebook")
+         do {
+             let results = try context.fetch(fetchRequest)
+             for object in results {
+                 guard let objectData = object as? NSManagedObject else {continue}
+                context.delete(objectData)
+             }
+         } catch let error {
+             print("Detele all data in error :", error)
+         }
+    }
 }

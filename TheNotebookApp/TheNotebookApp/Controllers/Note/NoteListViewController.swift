@@ -11,6 +11,7 @@ class NoteListViewController: UIViewController {
     
     // MARK: - Class properties
     private let viewModel: NoteListViewModel
+    private var searchController: UISearchController!
     
     // MARK: - Outlets
     private var tablewView: UITableView!
@@ -53,6 +54,14 @@ class NoteListViewController: UIViewController {
         //
         //        setupLeftBarItem()
         setupRightBarItem()
+        
+         searchController = UISearchController(searchResultsController: nil)
+    
+        searchController.searchResultsUpdater = self
+                searchController.obscuresBackgroundDuringPresentation = false
+                searchController.searchBar.placeholder = "Search Notebooks"
+                navigationItem.searchController = searchController
+                definesPresentationContext = true
         
     }
     
@@ -100,7 +109,21 @@ extension NoteListViewController: UITableViewDelegate{
     }
 }
 
+// MARK: - Extension for UISearchResultsUpdating
+extension NoteListViewController: UISearchResultsUpdating{
+    
+    func updateSearchResults(for searchController: UISearchController) {
+        
+        let searchBar = self.searchController.searchBar
+        self.viewModel.searchForThisText(predicate: searchBar.text!)
+        self.tablewView.reloadData()
+        
+    }
 
+    
+}
+
+// MARK: - Extension for NoteListViewModelDelegate
 extension NoteListViewController: NoteListViewModelDelegate{
     func didChange() {
         self.tablewView.reloadData()

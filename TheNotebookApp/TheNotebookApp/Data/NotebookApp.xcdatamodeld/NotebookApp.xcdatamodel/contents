@@ -15,7 +15,7 @@
         <attribute name="createdAt" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="notebookDesc" attributeType="String"/>
         <attribute name="title" attributeType="String"/>
-        <relationship name="hasMany" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Note" inverseName="belongsTo" inverseEntity="Note"/>
+        <relationship name="hasMany" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Note" inverseName="belongsTo" inverseEntity="Note"/>
     </entity>
     <elements>
         <element name="Image" positionX="45" positionY="117" width="128" height="74"/>

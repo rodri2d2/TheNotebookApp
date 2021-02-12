@@ -40,7 +40,6 @@ class LocalDataManager{
     // MARK: - Class functionalities
     /// Saves all data from Context into Storage if a change has been detected
     func saveContext() {
-        
         if self.viewContext.hasChanges {
             do {
                 try viewContext.save()
@@ -51,6 +50,19 @@ class LocalDataManager{
                 fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
             }
         }
+    }
+    
+    
+    func deleteAll(entityName: String){
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
+         do {
+             let results = try viewContext.fetch(fetchRequest)
+             for object in results {
+                viewContext.delete(object as! NSManagedObject)
+             }
+         } catch let error {
+             print("Detele all data in \(entityName) error :", error)
+         }
     }
     
     

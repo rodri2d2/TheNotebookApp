@@ -30,7 +30,7 @@ class NoteListViewModel: NSObject{
     
     // MARK: - Class functionalities
     //CoreData Related
-    private func setupResultController(){
+    private func setupResultController(predicate: NSPredicate){
         
         // 2. Crear nuestro NSFetchRequest
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Note")
@@ -40,7 +40,7 @@ class NoteListViewModel: NSObject{
         fetchRequest.sortDescriptors = [noteCreatedAtSortDescriptor]
         
         // 4. Creamos nuestro NSPredicate.
-        fetchRequest.predicate = NSPredicate(format: "belongsTo == %@", self.notebook)
+        fetchRequest.predicate = predicate
         
         // 5. Creamos el NSFetchResultsController.
         notesFetchResultsController = NSFetchedResultsController(fetchRequest: fetchRequest,
@@ -61,7 +61,8 @@ class NoteListViewModel: NSObject{
     
     //View Related
     func viewWasLoad(){
-        setupResultController()
+        let predicate = NSPredicate(format: "belongsTo == %@", self.notebook)
+        setupResultController(predicate: predicate)
     }
     
     func cellWasLoad(at indexPath: IndexPath) -> NoteListCellViewModel? {
@@ -87,10 +88,17 @@ class NoteListViewModel: NSObject{
         self.coordinatorDelegate?.didSelectNote(note: note)
     }
     
+    func searchForThisText(predicate: String){
+
+        print(predicate)
+        let predicate = NSPredicate(format: "title CONTAINS %@", predicate)
+        setupResultController(predicate: predicate)
+    }
+    
     func plusButtonWasPressed(){
         self.coordinatorDelegate?.didPressPlusButton(belongsTo: self.notebook)
     }
-    
+
 }
 
 

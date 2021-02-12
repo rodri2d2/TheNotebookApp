@@ -10,7 +10,7 @@ import CoreData
 
 /**
  This class will handle all Notebook Data related operations
-  
+ 
  - Attention: This class has a Delegate to notify changes on the view and a CoordinatorDelegate to notify Navigation requests
  
  - Author: Rodrigo Candido
@@ -40,8 +40,6 @@ class NotebookViewModel: NSObject{
         let notebookNameSortDescriptor = NSSortDescriptor(key: "createdAt",
                                                           ascending: true)
         request.sortDescriptors = [notebookNameSortDescriptor]
-        
-        
         self.fetchResultsController = NSFetchedResultsController(fetchRequest: request,
                                                                  managedObjectContext: dataManager.viewContext,
                                                                  sectionNameKeyPath: nil,
@@ -97,7 +95,7 @@ class NotebookViewModel: NSObject{
         }
         self.coordinatorDelegate?.didSelectANotebook(notebook: notebook)
     }
-
+    
     
     //Actions Related
     /// Trigger this function to add a new Notebook
@@ -111,15 +109,28 @@ class NotebookViewModel: NSObject{
         self.dataManager.saveContext()
         //
         cells.append(NotebookCellViewModel(notebookItem: notebook))
-        self.delegate?.dataDidChange()
+    }
+    
+    func updaButtonWasPressed(title: String, description: String, at indexPath: IndexPath){
+        let notebook = cells[indexPath.row].notebookModel()
+        notebook.title = title
+        notebook.notebookDesc = description
         
     }
     
+    func deleteNotebookWasPressed(at indexPath: IndexPath){
+        
+        let notebookToBeRemoved = self.cells[indexPath.row].notebookModel()
+        self.dataManager.viewContext.delete(notebookToBeRemoved)
+        self.dataManager.saveContext()
+        
+    }
     
     /// Call this function to clear up. To erase all Notebooks on the Storage
     func removeAllButtonWasPressed(){
-        cells.removeAll()
-        delegate?.dataDidChange()
+        self.dataManager.deleteAll(entityName: "Notebook")
+        self.cells.removeAll()
+        self.dataManager.saveContext()
     }
 }
 
@@ -133,7 +144,19 @@ extension NotebookViewModel: NSFetchedResultsControllerDelegate {
     
     // did change an object.
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
-        self.delegate?.dataDidChange()
+        
+        switch type {
+            case .insert:
+                self.delegate?.dataDidChange(type: type, indexPath: newIndexPath!)
+            case .delete:
+                self.delegate?.dataDidChange(type: type, indexPath: indexPath!)
+            case .update:
+                self.delegate?.dataDidChange(type: type, indexPath: indexPath!)
+            case .move:
+                self.delegate?.dataDidChange(type: type, indexPath: newIndexPath!)
+            @unknown default:
+                fatalError()
+        }
     }
     
     // did change content.

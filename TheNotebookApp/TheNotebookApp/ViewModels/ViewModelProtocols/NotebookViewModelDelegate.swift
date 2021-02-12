@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import CoreData
 
 /**
  This procotol links the NotebookViewModel to a UI Manager Class
@@ -18,5 +19,5 @@ import Foundation
  - Version: v1.0
  */
 protocol NotebookViewModelDelegate {
-    func dataDidChange()
+    func dataDidChange(type: NSFetchedResultsChangeType, indexPath: IndexPath)
 }
