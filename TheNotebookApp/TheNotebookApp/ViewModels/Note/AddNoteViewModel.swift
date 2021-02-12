@@ -58,7 +58,7 @@ class AddNoteViewModel: NSObject {
     func viewWasLoad(){
         setupResultsController()
     }
-    
+
     func cellWasLoad(at indexPath: IndexPath) -> AddNoteCellItemViewModel{
         if let image = imageFetchResultsController?.object(at: indexPath) as? ImageMO {
             if let imageFromCoreData = image.imageData {
