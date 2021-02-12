@@ -8,6 +8,6 @@
 import Foundation
 
 protocol NotebookCoodinatorDelegate {
-    func didSelectANotebook(noteBook: NotebookMockModel)
+    func didSelectANotebook(notebook: NotebookMO)
     func childDidFinish()
 }

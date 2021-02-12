@@ -28,7 +28,7 @@
                                     <constraint firstAttribute="width" secondItem="5F9-2V-KCK" secondAttribute="height" multiplier="1:1" id="OLS-Yd-VhH"/>
                                 </constraints>
                             </imageView>
-                            <stackView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" verticalHuggingPriority="249" horizontalCompressionResistancePriority="749" verticalCompressionResistancePriority="749" axis="vertical" distribution="fillEqually" alignment="top" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="CUd-At-DAw">
+                            <stackView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" verticalHuggingPriority="249" horizontalCompressionResistancePriority="749" verticalCompressionResistancePriority="749" axis="vertical" distribution="fillEqually" alignment="top" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="CUd-At-DAw" userLabel="leftStack">
                                 <rect key="frame" x="84" y="20" width="87.5" height="44"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="249" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hPc-WG-w5W">
@@ -45,20 +45,54 @@
                                     </label>
                                 </subviews>
                             </stackView>
-                            <stackView opaque="NO" contentMode="scaleToFill" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="sql-cb-lV3">
-                                <rect key="frame" x="342.5" y="8" width="74.5" height="72"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="sql-cb-lV3" userLabel="rightStack">
+                                <rect key="frame" x="342.5" y="4" width="74.5" height="76"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="createdAt" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="36J-Zq-ner">
-                                        <rect key="frame" x="0.0" y="0.0" width="74.5" height="20.5"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <color key="textColor" name="AccentColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="7dU-kO-1Dz">
+                                        <rect key="frame" x="0.0" y="0.0" width="74.5" height="76"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="createdAt" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="36J-Zq-ner">
+                                                <rect key="frame" x="0.0" y="0.0" width="74.5" height="31"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="31" id="Tgp-7h-cH8"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <color key="textColor" name="AccentColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="1BH-sz-Cfm">
+                                                <rect key="frame" x="0.0" y="31" width="74.5" height="45"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gug-vj-9vP">
+                                                        <rect key="frame" x="30.5" y="0.0" width="13.5" height="26.5"/>
+                                                        <fontDescription key="fontDescription" style="UICTFontTextStyleTitle2"/>
+                                                        <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" text="notes" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gyI-Dj-3Ks">
+                                                        <rect key="frame" x="16" y="26.5" width="42.5" height="18.5"/>
+                                                        <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                                                        <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                </subviews>
+                                                <constraints>
+                                                    <constraint firstItem="gyI-Dj-3Ks" firstAttribute="centerX" secondItem="gug-vj-9vP" secondAttribute="centerX" id="uQR-5M-TQ1"/>
+                                                </constraints>
+                                            </stackView>
+                                        </subviews>
+                                    </stackView>
                                 </subviews>
+                                <constraints>
+                                    <constraint firstItem="7dU-kO-1Dz" firstAttribute="leading" secondItem="sql-cb-lV3" secondAttribute="leading" id="0pp-fT-O6j"/>
+                                    <constraint firstItem="7dU-kO-1Dz" firstAttribute="top" secondItem="sql-cb-lV3" secondAttribute="top" id="IsB-dq-BWS"/>
+                                    <constraint firstAttribute="trailing" secondItem="7dU-kO-1Dz" secondAttribute="trailing" id="ewC-2V-Etf"/>
+                                    <constraint firstAttribute="bottom" secondItem="7dU-kO-1Dz" secondAttribute="bottom" id="r7t-Lf-Jlm"/>
+                                </constraints>
                             </stackView>
                         </subviews>
                         <constraints>
-                            <constraint firstItem="sql-cb-lV3" firstAttribute="top" secondItem="dyb-T1-bPc" secondAttribute="top" constant="8" id="8VW-RU-jk7"/>
+                            <constraint firstItem="sql-cb-lV3" firstAttribute="top" secondItem="dyb-T1-bPc" secondAttribute="top" constant="4" id="8VW-RU-jk7"/>
                             <constraint firstAttribute="bottom" secondItem="sql-cb-lV3" secondAttribute="bottom" constant="4" id="Dok-02-GPg"/>
                             <constraint firstItem="CUd-At-DAw" firstAttribute="top" secondItem="dyb-T1-bPc" secondAttribute="top" constant="20" symbolic="YES" id="FGB-5I-iZ9"/>
                             <constraint firstItem="CUd-At-DAw" firstAttribute="leading" secondItem="5F9-2V-KCK" secondAttribute="trailing" constant="10" id="Oq4-B6-Dhv"/>
@@ -82,6 +116,8 @@
                 <outlet property="notebookCreatedDate" destination="36J-Zq-ner" id="5yK-fa-pKn"/>
                 <outlet property="notebookDescription" destination="36p-rn-Qnh" id="HT9-xW-zn2"/>
                 <outlet property="noteboolTitle" destination="hPc-WG-w5W" id="Y6W-Lf-Oi0"/>
+                <outlet property="notesWordLabel" destination="gyI-Dj-3Ks" id="RHn-qt-gLr"/>
+                <outlet property="numberOfNotesLabel" destination="gug-vj-9vP" id="4nC-Zl-7UG"/>
                 <outlet property="supportView" destination="dyb-T1-bPc" id="dSS-en-zuz"/>
             </connections>
             <point key="canvasLocation" x="-305" y="110"/>

@@ -8,7 +8,7 @@
 import UIKit
 
 class NotebookListViewController: UIViewController{
-
+    
     // MARK: - Class properties
     private var viewModel: NotebookViewModel
     
@@ -24,7 +24,7 @@ class NotebookListViewController: UIViewController{
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
@@ -54,7 +54,7 @@ class NotebookListViewController: UIViewController{
         
         
         alert.addAction(UIAlertAction(title: "Create Notebook", style: .cancel, handler: {[weak self]  _ in
-        
+            
             guard let titleField = alert.textFields?[0],
                   let descField = alert.textFields?[1],
                   let title = titleField.text,
@@ -67,7 +67,7 @@ class NotebookListViewController: UIViewController{
         }))
         
         present(alert, animated: true, completion: nil)
-
+        
     }
     
     @objc private func didPressRemoveAllButton(){
@@ -83,7 +83,7 @@ class NotebookListViewController: UIViewController{
         //
         setupLeftBarItem()
         setupRightBarItem()
-
+        
     }
     
     private func setupRightBarItem(){
@@ -120,12 +120,12 @@ extension NotebookListViewController: NotebookViewModelDelegate{
 // MARK: - Extension for UITableViewDataSource
 extension NotebookListViewController: UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.viewModel.numberOfNotebooks()
+        return self.viewModel.numberOfRows(in: section)
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cellViewModel = self.viewModel.cellWasLoad(at: indexPath.row)
+        let cellViewModel = self.viewModel.cellWasLoad(at: indexPath)
         let cell = tableView.dequeueReusableCell(withIdentifier: NotebookCell.IDENTIFIER, for: indexPath) as! NotebookCell
         cell.viewModel = cellViewModel
         return cell

@@ -9,5 +9,6 @@ import Foundation
 
 
 protocol AddNoteCoodinatorDelegate {
+    func didCreated()
     func didCancel()
 }

@@ -7,24 +7,23 @@
 
 import Foundation
 
-
 class NotebookCellViewModel {
     
-    private let notebook: NotebookMockModel
-    var title:       String
-    var description: String
-    var createdAt:   Date
+    private let notebook: NotebookMO
+    var title:         String
+    var description:   String
+    var createdAt:     Date
+    var numberOfNotes: Int
     
-    init(notebookItem: NotebookMockModel) {
+    init(notebookItem: NotebookMO) {
         self.notebook    = notebookItem
-        self.title       = notebook.title
-        self.description = notebook.decription
-        self.createdAt   = notebook.createdAt
+        self.title       = notebook.title!
+        self.description = notebook.notebookDesc!
+        self.createdAt   = notebook.createdAt!
+        self.numberOfNotes = notebook.hasMany!.count
     }
     
-    func notebookModel() -> NotebookMockModel{
+    func notebookModel() -> NotebookMO{
         return self.notebook
     }
-    
-    
 }

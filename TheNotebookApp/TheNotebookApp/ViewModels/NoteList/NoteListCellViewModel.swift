@@ -9,4 +9,14 @@ import Foundation
 
 class NoteListCellViewModel{
     
+    private let note: NoteMO
+    var noteTitle:    String
+    var noteContent:  String
+    
+    init(noteMO: NoteMO) {
+        self.note = noteMO
+        self.noteTitle  = note.title!
+        self.noteContent = note.noteContent!
+    }
+    
 }
