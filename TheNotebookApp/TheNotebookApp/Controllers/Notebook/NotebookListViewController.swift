@@ -8,7 +8,7 @@
 import UIKit
 
 class NotebookListViewController: UIViewController{
-
+    
     // MARK: - Class properties
     private var viewModel: NotebookViewModel
     
@@ -24,7 +24,7 @@ class NotebookListViewController: UIViewController{
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
@@ -54,7 +54,7 @@ class NotebookListViewController: UIViewController{
         
         
         alert.addAction(UIAlertAction(title: "Create Notebook", style: .cancel, handler: {[weak self]  _ in
-        
+            
             guard let titleField = alert.textFields?[0],
                   let descField = alert.textFields?[1],
                   let title = titleField.text,
@@ -67,7 +67,7 @@ class NotebookListViewController: UIViewController{
         }))
         
         present(alert, animated: true, completion: nil)
-
+        
     }
     
     @objc private func didPressRemoveAllButton(){
@@ -83,7 +83,7 @@ class NotebookListViewController: UIViewController{
         //
         setupLeftBarItem()
         setupRightBarItem()
-
+        
     }
     
     private func setupRightBarItem(){

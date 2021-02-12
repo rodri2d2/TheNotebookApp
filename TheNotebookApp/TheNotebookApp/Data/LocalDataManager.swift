@@ -35,23 +35,28 @@ class LocalDataManager{
             })
         }
     }
-
+    
     
     // MARK: - Class functionalities
     /// Saves all data from Context into Storage if a change has been detected
     func saveContext() {
-       
-       if self.viewContext.hasChanges {
-           do {
-               try viewContext.save()
-           } catch {
-               // Replace this implementation with code to handle the error appropriately.
-               // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-               let nserror = error as NSError
-               fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
-           }
-       }
-   }
+        
+        if self.viewContext.hasChanges {
+            do {
+                try viewContext.save()
+            } catch {
+                // Replace this implementation with code to handle the error appropriately.
+                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+                let nserror = error as NSError
+                fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
+            }
+        }
+    }
+    
+    
+    func resetContext() {
+        self.viewContext.reset()
+    }
     
     
     /// Initializes the managed object model using the model file at the specified URL.

@@ -1,48 +1,48 @@
     //
-//  NotebookCoordinator.swift
-//  TheNotebookApp
-//
-//  Created by Rodrigo Candido on 5/2/21.
-//
-
-import UIKit
-
-class NotebookCoordinator: Coordinator{
+    //  NotebookCoordinator.swift
+    //  TheNotebookApp
+    //
+    //  Created by Rodrigo Candido on 5/2/21.
+    //
     
-    // MARK: - Class properties
-    private let presenter: UINavigationController
-    private let dataManager: LocalDataManager
+    import UIKit
     
-    // MARK: - Coordinator protocol properties
-    var childrem: [Coordinator] = []
-    
-    
-    // MARK: - Lyfecycle
-    init(appPresenter: UINavigationController, localDataManager: LocalDataManager) {
-        self.presenter = appPresenter
-        self.dataManager = localDataManager
+    class NotebookCoordinator: Coordinator{
+        
+        // MARK: - Class properties
+        private let presenter: UINavigationController
+        private let dataManager: LocalDataManager
+        
+        // MARK: - Coordinator protocol properties
+        var childrem: [Coordinator] = []
+        
+        
+        // MARK: - Lyfecycle
+        init(appPresenter: UINavigationController, localDataManager: LocalDataManager) {
+            self.presenter = appPresenter
+            self.dataManager = localDataManager
+        }
+        
+        
+        // MARK: - Coordinator protocol functionalities
+        func start() {
+            //
+            let viewModel = NotebookViewModel(localDataManager: self.dataManager)
+            
+            
+            viewModel.coordinatorDelegate = self
+            let notebookController = NotebookListViewController(notebookViewModel: viewModel)
+            //
+            self.presenter.setViewControllers([notebookController], animated: true)
+            
+        }
+        
+        func finish() {}
+        
     }
     
     
-    // MARK: - Coordinator protocol functionalities
-    func start() {
-        //
-        let viewModel = NotebookViewModel(localDataManager: self.dataManager)
-        
-        
-        viewModel.coordinatorDelegate = self
-        let notebookController = NotebookListViewController(notebookViewModel: viewModel)
-        //
-        self.presenter.setViewControllers([notebookController], animated: true)
-        
-    }
-    
-    func finish() {}
-
-}
-    
-    
-// MARK: - Extension for NotebookCoordinatorDelegate
+    // MARK: - Extension for NotebookCoordinatorDelegate
     extension NotebookCoordinator: NotebookCoodinatorDelegate{
         
         
@@ -61,15 +61,15 @@ class NotebookCoordinator: Coordinator{
         func childDidFinish() {
             
         }
-}
-// MARK: - Extension for NoteListCoordinatorDelegate
+    }
+    // MARK: - Extension for NoteListCoordinatorDelegate
     extension NotebookCoordinator: NoteListCoordinatorDelegate{
         func didPressPlusButton(belongsTo: NotebookMO) {
             
             let addNoteCoordinator = AddNoteCoordinator(notePresenter: self.presenter, localDataManager: self.dataManager, belongsTo: belongsTo)
             self.childrem.append(addNoteCoordinator)
             addNoteCoordinator.start()
-    
+            
             addNoteCoordinator.onCreated = { [weak self] in
                 guard let self = self else { return }
                 
@@ -86,8 +86,8 @@ class NotebookCoordinator: Coordinator{
                 
                 //TODO: - For next version of this app, change Coordinador, to be much easier to remove a Child Coordinator. This app actually has only one child so the code below is aceptable
                 self.childrem.removeAll()
+            }
+            
+            
         }
-        
-
     }
-}

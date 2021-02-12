@@ -13,7 +13,7 @@ import CoreData
 public class NotebookMO: NSManagedObject {
     
     static func createNotebook(title: String, description: String, createAt: Date, in managedObjectContext: NSManagedObjectContext) -> NotebookMO? {
-    
+        
         let notebook = NSEntityDescription.insertNewObject(forEntityName: "Notebook",
                                                            into: managedObjectContext) as? NotebookMO
         notebook?.createdAt     = createAt

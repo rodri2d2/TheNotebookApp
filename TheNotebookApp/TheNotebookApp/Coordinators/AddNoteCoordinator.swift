@@ -35,9 +35,10 @@ class AddNoteCoordinator: Coordinator{
         let addNoteViewModel = AddNoteViewModel(localDataManager: self.dataManager, notebook: self.notebook)
         addNoteViewModel.coordinatorDelegate = self
         
+        
         let noteViewController = AddNoteViewController(addNoteViewModel: addNoteViewModel)
         let navigationController = UINavigationController(rootViewController: noteViewController)
-        
+        addNoteViewModel.delegate = noteViewController
         
         navigationController.modalPresentationStyle = .fullScreen
         navigationController.modalTransitionStyle = .flipHorizontal

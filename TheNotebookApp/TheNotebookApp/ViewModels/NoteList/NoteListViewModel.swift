@@ -32,8 +32,6 @@ class NoteListViewModel: NSObject{
     //CoreData Related
     private func setupResultController(){
         
-        
-        
         // 2. Crear nuestro NSFetchRequest
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Note")
         
@@ -46,9 +44,9 @@ class NoteListViewModel: NSObject{
         
         // 5. Creamos el NSFetchResultsController.
         notesFetchResultsController = NSFetchedResultsController(fetchRequest: fetchRequest,
-                                                            managedObjectContext: dataManager.viewContext,
-                                                            sectionNameKeyPath: nil,
-                                                            cacheName: nil)
+                                                                 managedObjectContext: dataManager.viewContext,
+                                                                 sectionNameKeyPath: nil,
+                                                                 cacheName: nil)
         
         self.notesFetchResultsController?.delegate = self
         // 6. Perform fetch.
@@ -59,8 +57,6 @@ class NoteListViewModel: NSObject{
         }
         
     }
-   
-    
     
     
     //View Related
@@ -68,11 +64,13 @@ class NoteListViewModel: NSObject{
         setupResultController()
     }
     
+    
+    
     func cellWasLoad(at indexPath: IndexPath) -> NoteListCellViewModel? {
         guard let note = notesFetchResultsController?.object(at: indexPath) as? NoteMO else {
             fatalError("Attempt to configure cell without a managed object")
         }
-       let noteCell = NoteListCellViewModel(noteMO: note)
+        let noteCell = NoteListCellViewModel(noteMO: note)
         cells.append(noteCell)
         return noteCell
     }
@@ -95,25 +93,25 @@ extension NoteListViewModel: NSFetchedResultsControllerDelegate {
     
     // will change
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-//        print("Will Change")
+        //        print("Will Change")
     }
     
     // did change a section.
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType){
-//        print("did change a section")
+        //        print("did change a section")
     }
     
     // did change an object.
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
         
-//        print("Ha cambiado algo")
+        print("Ha cambiado algo")
         self.delegate?.didChange()
         
     }
     
     // did change content.
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-//        print("did change content.")
+        //        print("did change content.")
     }
-
+    
 }

@@ -8,7 +8,7 @@
 import UIKit
 
 class NoteListViewController: UIViewController {
-
+    
     // MARK: - Class properties
     private let viewModel: NoteListViewModel
     
@@ -34,7 +34,6 @@ class NoteListViewController: UIViewController {
         setupOutletsStyleAndItems()
     }
     
-    
     // MARK: - Actions
     @objc private func didPressPlusButton(){
         self.viewModel.plusButtonWasPressed()
@@ -52,9 +51,9 @@ class NoteListViewController: UIViewController {
         //
         self.navigationController?.navigationBar.prefersLargeTitles = true
         //
-//        setupLeftBarItem()
+        //        setupLeftBarItem()
         setupRightBarItem()
-
+        
     }
     
     private func setupRightBarItem(){
@@ -73,9 +72,7 @@ class NoteListViewController: UIViewController {
         self.tablewView = self.view.createTableView(delegate: self, dataSource: self)
         self.tablewView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
         self.view.addSubview(self.tablewView)
-        self.tablewView.pin(to: self.view)
-//        tablewView.separatorStyle = .none
-        
+        self.tablewView.pin(to: self.view)        
     }
 }
 

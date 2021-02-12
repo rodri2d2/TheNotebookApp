@@ -13,14 +13,14 @@ import CoreData
 public class NoteMO: NSManagedObject {
     
     static func createNote(title: String, content: String, belongsTo: NotebookMO, in managedObjectContext: NSManagedObjectContext) -> NoteMO? {
-    
+        
         let note = NSEntityDescription.insertNewObject(forEntityName: "Note",
-                                                           into: managedObjectContext) as? NoteMO
+                                                       into: managedObjectContext) as? NoteMO
         note?.title         = title
         note?.noteContent   = content
         note?.belongsTo     = belongsTo
         return note
         
     }
-
+    
 }

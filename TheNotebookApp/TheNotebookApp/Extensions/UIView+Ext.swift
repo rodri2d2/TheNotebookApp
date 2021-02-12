@@ -21,10 +21,10 @@ extension UIView {
      Being at some ViewController or a Class that has a implementation of UIView, send this view property as parameter
      ~~~
      class ViewController: UIViewController {
-     override func viewDidLoad() {
-     super.viewDidLoad()
-     tableView.pin(to: self.view)
-     }
+         override func viewDidLoad() {
+             super.viewDidLoad()
+             tableView.pin(to: self.view)
+         }
      }
      ~~~
      
@@ -48,8 +48,8 @@ extension UIView {
     /**
      CreateTableView - Use this function create a UITableView with delegate and data source
      - Parameters:
-        - delegate: type of class tha implemente UITableViewDelegate
-        - dataSpurce: type of class tha implemente UITableViewDataSource
+     - delegate: type of class tha implemente UITableViewDelegate
+     - dataSpurce: type of class tha implemente UITableViewDataSource
      
      ## Example
      
@@ -57,8 +57,8 @@ extension UIView {
      ~~~
      class ViewController: UIViewController {
          override func viewDidLoad() {
-         super.viewDidLoad()
-            let tableView = self.view.createTableView(delegate: self, dataSource: self)
+             super.viewDidLoad()
+             let tableView = self.view.createTableView(delegate: self, dataSource: self)
          }
      }
      ~~~
@@ -73,9 +73,9 @@ extension UIView {
     /**
      CreateCollectionView - Use this function create a simple UICollectionView with delegate, data source and orientarion
      - Parameters:
-        - delegate: type of class tha implemente UITableViewDelegate
-        - dataSpurce: type of class tha implemente UITableViewDataSource
-        - orientation: type of UICollectionViewDataSource
+     - delegate: type of class tha implemente UITableViewDelegate
+     - dataSpurce: type of class tha implemente UITableViewDataSource
+     - orientation: type of UICollectionViewDataSource
      
      ## Example
      
@@ -83,14 +83,14 @@ extension UIView {
      ~~~
      class ViewController: UIViewController {
          override func viewDidLoad() {
-         super.viewDidLoad()
-            let collectionView = self.view.createCollectionView(delegate: self, dataSource: self, orientation: .vertical)
+             super.viewDidLoad()
+             let collectionView = self.view.createCollectionView(delegate: self, dataSource: self, orientation: .vertical)
          }
      }
      ~~~
      */
     func createCollectionView(delegate: UICollectionViewDelegate, dataSource: UICollectionViewDataSource, orientation:  UICollectionView.ScrollDirection) -> UICollectionView{
-       
+        
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = orientation
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -98,5 +98,7 @@ extension UIView {
         collectionView.dataSource = dataSource
         return collectionView
     }
+    
+    
     
 }

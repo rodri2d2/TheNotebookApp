@@ -11,7 +11,7 @@ import UIKit
 /**
  This class controls the entire app navigation based on Coordinator Pattern. It is App Main Coordinator Class
  
-  Its start method asign to app Window a rootNavigationController as UINavigationController.
+ Its start method asign to app Window a rootNavigationController as UINavigationController.
  
  - Author: Rodrigo Candido
  - Version: v1.0
@@ -21,7 +21,7 @@ class AppCoordinator: Coordinator{
     // MARK: - Class properties
     private var window: UIWindow
     private var dataManager: LocalDataManager
- 
+    
     // MARK: - Coordinator Protrocol Properties
     var childrem: [Coordinator] = []
     
