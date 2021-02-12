@@ -96,6 +96,7 @@ extension NoteListViewController: UITableViewDataSource{
 extension NoteListViewController: UITableViewDelegate{
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        self.viewModel.cellWasSelected(at: indexPath)
     }
 }
 

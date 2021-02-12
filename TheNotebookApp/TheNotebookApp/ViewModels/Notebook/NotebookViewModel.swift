@@ -51,7 +51,7 @@ class NotebookViewModel: NSObject{
         do {
             try self.fetchResultsController?.performFetch()
         } catch {
-            print("Error while trying to perform a notebook fetch.")
+            print(error.localizedDescription)
         }
         
     }
@@ -126,25 +126,17 @@ class NotebookViewModel: NSObject{
 extension NotebookViewModel: NSFetchedResultsControllerDelegate {
     
     // will change
-    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-//        print("Will Change")
-    }
+    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {}
     
     // did change a section.
-    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType){
-//        print("did change a section")
-    }
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType){}
     
     // did change an object.
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
-//        print("did change an object")
         self.delegate?.dataDidChange()
-        
     }
     
     // did change content.
-    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-//        print("did change content.")
-    }
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {}
     
 }

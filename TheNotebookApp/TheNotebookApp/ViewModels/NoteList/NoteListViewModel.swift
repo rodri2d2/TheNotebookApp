@@ -64,8 +64,6 @@ class NoteListViewModel: NSObject{
         setupResultController()
     }
     
-    
-    
     func cellWasLoad(at indexPath: IndexPath) -> NoteListCellViewModel? {
         guard let note = notesFetchResultsController?.object(at: indexPath) as? NoteMO else {
             fatalError("Attempt to configure cell without a managed object")
@@ -82,6 +80,13 @@ class NoteListViewModel: NSObject{
         return self.cells.count
     }
     
+    func cellWasSelected(at indexPath: IndexPath){
+        guard let note = notesFetchResultsController?.object(at: indexPath) as? NoteMO else {
+            fatalError("Attempt to configure cell without a managed object")
+        }
+        self.coordinatorDelegate?.didSelectNote(note: note)
+    }
+    
     func plusButtonWasPressed(){
         self.coordinatorDelegate?.didPressPlusButton(belongsTo: self.notebook)
     }
@@ -93,25 +98,20 @@ extension NoteListViewModel: NSFetchedResultsControllerDelegate {
     
     // will change
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        //        print("Will Change")
+
     }
     
     // did change a section.
-    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType){
-        //        print("did change a section")
-    }
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType){}
     
     // did change an object.
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
-        
-        print("Ha cambiado algo")
         self.delegate?.didChange()
         
     }
     
     // did change content.
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        //        print("did change content.")
     }
     
 }

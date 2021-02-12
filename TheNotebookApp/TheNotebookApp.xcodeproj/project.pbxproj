@@ -25,6 +25,7 @@
 		5B33438225CC5AE3008EDA12 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B33438125CC5AE3008EDA12 /* SceneDelegate.swift */; };
 		5B33438925CC5AE4008EDA12 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5B33438825CC5AE4008EDA12 /* Assets.xcassets */; };
 		5B33438C25CC5AE4008EDA12 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5B33438A25CC5AE4008EDA12 /* LaunchScreen.storyboard */; };
+		5B39E7B725D6B061009684F7 /* Modes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B39E7B625D6B061009684F7 /* Modes.swift */; };
 		5B5FC52225D3EB170014FCF8 /* NotebookApp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 5B5FC52025D3EB170014FCF8 /* NotebookApp.xcdatamodeld */; };
 		5B70D26325D59AC2006C63F6 /* AddNoteCellItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B70D26225D59AC2006C63F6 /* AddNoteCellItemViewModel.swift */; };
 		5B70D26625D59E8C006C63F6 /* AddNoteViewModelDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B70D26525D59E8C006C63F6 /* AddNoteViewModelDelegate.swift */; };
@@ -65,6 +66,7 @@
 		5B33438825CC5AE4008EDA12 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5B33438B25CC5AE4008EDA12 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		5B33438D25CC5AE4008EDA12 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5B39E7B625D6B061009684F7 /* Modes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Modes.swift; sourceTree = "<group>"; };
 		5B5FC52125D3EB170014FCF8 /* NotebookApp.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = NotebookApp.xcdatamodel; sourceTree = "<group>"; };
 		5B70D26225D59AC2006C63F6 /* AddNoteCellItemViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNoteCellItemViewModel.swift; sourceTree = "<group>"; };
 		5B70D26525D59E8C006C63F6 /* AddNoteViewModelDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNoteViewModelDelegate.swift; sourceTree = "<group>"; };
@@ -130,6 +132,7 @@
 		5B08AAD025CD348C00292355 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				5B39E7B525D6B042009684F7 /* Utils */,
 				5BBF299925CDB01900FCB637 /* Note */,
 				5B0E35ED25CDA51A0012C206 /* NoteList */,
 				5B0E35EC25CDA50C0012C206 /* Notebook */,
@@ -234,6 +237,14 @@
 				5B08AAC525CD30B400292355 /* Coordinators */,
 			);
 			path = TheNotebookApp;
+			sourceTree = "<group>";
+		};
+		5B39E7B525D6B042009684F7 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				5B39E7B625D6B061009684F7 /* Modes.swift */,
+			);
+			path = Utils;
 			sourceTree = "<group>";
 		};
 		5B4BE9DC25D3D68100912713 /* Data */ = {
@@ -399,6 +410,7 @@
 				5B1D5C1725D3DC9700D2E448 /* LocalDataManager.swift in Sources */,
 				5B33438225CC5AE3008EDA12 /* SceneDelegate.swift in Sources */,
 				5B08AADB25CD350100292355 /* NotebookViewModel.swift in Sources */,
+				5B39E7B725D6B061009684F7 /* Modes.swift in Sources */,
 				5BBF29AF25CDB19A00FCB637 /* NoteListCoordinatorDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

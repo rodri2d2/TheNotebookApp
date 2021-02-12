@@ -14,7 +14,8 @@ class AddNoteCoordinator: Coordinator{
     private let presenter: UINavigationController
     private var addNoteNavigationController: UINavigationController?
     private let dataManager: LocalDataManager
-    private let notebook: NotebookMO
+    private var notebook: NotebookMO?
+    private var note:     NoteMO?
     var onCancel:  (() -> Void)?
     var onCreated: (() -> Void)?
     
@@ -22,30 +23,54 @@ class AddNoteCoordinator: Coordinator{
     var childrem: [Coordinator] = []
     
     
-    init(notePresenter: UINavigationController, localDataManager: LocalDataManager, belongsTo: NotebookMO) {
+    init(notePresenter: UINavigationController, localDataManager: LocalDataManager) {
         self.presenter = notePresenter
         self.dataManager = localDataManager
-        self.notebook = belongsTo
-        
     }
     
     // MARK: - Coordinator protocol functionalities
     func start() {
+
+        if let belongsTo = self.notebook {
+            let addViewModel = prepareViewModel()
+            addViewModel.addNotebook(notebook: belongsTo)
+            addViewModel.setMode(mode: .create)
+            presentController(viewModel: addViewModel)
+        }
         
-        let addNoteViewModel = AddNoteViewModel(localDataManager: self.dataManager, notebook: self.notebook)
+        if let noteInNotebook = self.note{
+            
+            let addViewModel = prepareViewModel()
+            addViewModel.addNote(note: noteInNotebook)
+            addViewModel.setMode(mode: .edit)
+            presentController(viewModel: addViewModel)
+        }
+    }
+    
+    private func prepareViewModel() -> AddNoteViewModel{
+        let addNoteViewModel = AddNoteViewModel(localDataManager: self.dataManager)
         addNoteViewModel.coordinatorDelegate = self
-        
-        
-        let noteViewController = AddNoteViewController(addNoteViewModel: addNoteViewModel)
+        return addNoteViewModel
+    }
+    
+    private func presentController(viewModel: AddNoteViewModel){
+        let noteViewController = AddNoteViewController(addNoteViewModel: viewModel)
         let navigationController = UINavigationController(rootViewController: noteViewController)
-        addNoteViewModel.delegate = noteViewController
+        viewModel.delegate = noteViewController
         
         navigationController.modalPresentationStyle = .fullScreen
         navigationController.modalTransitionStyle = .flipHorizontal
         
-        
         self.addNoteNavigationController = navigationController
         self.presenter.present(navigationController, animated: true, completion: nil)
+    }
+    
+    func addNotebook(notebookMO: NotebookMO){
+        self.notebook = notebookMO
+    }
+    
+    func addNote(noteMO: NoteMO){
+        self.note = noteMO
     }
     
     func finish() {

@@ -34,10 +34,10 @@ class AddNoteViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        viewModel.viewWasLoad()
-        //
+        
+         let noteObject = viewModel.viewWasLoad()
         setupNavigationBarStyleAndItems()
-        setupOutletStyleandItems()
+        setupOutletStyleandItems(note: noteObject)
     }
     
     // MARK: - Actions
@@ -50,7 +50,7 @@ class AddNoteViewController: UIViewController {
         if !noteTitleTextField.text!.isEmpty {
             let title = noteTitleTextField.text!
             let content = "note content"
-            viewModel.createButtonWasPressed(title: title, content: content)
+            viewModel.saveButtonWasPressed(title: title, content: content)
         }
     }
     
@@ -71,7 +71,16 @@ class AddNoteViewController: UIViewController {
         
     }
     
-    private func setupOutletStyleandItems(){
+    private func setupOutletStyleandItems(note: NoteMO?){
+        if let noteToEdit = note {
+            noteTitleTextField.text = noteToEdit.title
+            noteContentTextField.text = noteToEdit.noteContent
+        }
+        
+        setupCollectionView()
+    }
+    
+    private func setupCollectionView(){
         self.collectionView = self.view.createCollectionView(delegate: self, dataSource: self, orientation: .vertical)
         self.collectionViewContainer.addSubview(collectionView)
         self.collectionView.register(UINib(nibName: "NoteItemCell", bundle: .main), forCellWithReuseIdentifier: "cell")
@@ -121,9 +130,11 @@ extension AddNoteViewController: UICollectionViewDataSource{
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         //
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! NoteItemCell
-        let cellItem = viewModel.cellWasLoad(at: indexPath)
         
+        let cellItem = viewModel.cellWasLoad(at: indexPath)
         cell.imageView.image = UIImage(data: cellItem.imageData)
+        
+        
         return cell
     }
 }
