@@ -115,7 +115,7 @@ class NotebookViewModel: NSObject{
         let notebook = cells[indexPath.row].notebookModel()
         notebook.title = title
         notebook.notebookDesc = description
-        
+        self.dataManager.saveContext() 
     }
     
     func deleteNotebookWasPressed(at indexPath: IndexPath){
@@ -128,8 +128,8 @@ class NotebookViewModel: NSObject{
     
     /// Call this function to clear up. To erase all Notebooks on the Storage
     func removeAllButtonWasPressed(){
-        self.dataManager.deleteAll(entityName: "Notebook")
         self.cells.removeAll()
+        self.dataManager.deleteAll(entityName: "Notebook")
         self.dataManager.saveContext()
     }
 }

@@ -39,7 +39,6 @@ class AddNoteCoordinator: Coordinator{
         }
         
         if let noteInNotebook = self.note{
-            
             let addViewModel = prepareViewModel()
             addViewModel.addNote(note: noteInNotebook)
             addViewModel.setMode(mode: .edit)

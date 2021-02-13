@@ -24,6 +24,9 @@ public class NotebookMO: NSManagedObject {
         
     }
     
+
+    
+    
     static func deleteNotebooks(context: NSManagedObjectContext){
         
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Notebook")

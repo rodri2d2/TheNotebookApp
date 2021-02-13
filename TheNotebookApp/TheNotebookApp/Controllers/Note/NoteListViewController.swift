@@ -10,11 +10,11 @@ import UIKit
 class NoteListViewController: UIViewController {
     
     // MARK: - Class properties
-    private let viewModel: NoteListViewModel
-    private var searchController: UISearchController!
+    private let viewModel:        NoteListViewModel
     
     // MARK: - Outlets
     private var tablewView: UITableView!
+    private var searchBar = UISearchBar()
     
     // MARK: - Lyfecycle
     init(noteViewModel: NoteListViewModel) {
@@ -44,37 +44,59 @@ class NoteListViewController: UIViewController {
         
     }
     
+    @objc private func didStartSearching(){
+        setupSearchBarShow(isShowing: true)
+        self.searchBar.becomeFirstResponder()
+    }
     
     // MARK: - Class functionalities
     private func setupNavigationBarStyleAndItems(){
-        //
+        
         self.title = viewModel.title
-        //
         self.navigationController?.navigationBar.prefersLargeTitles = true
+  
         //
-        //        setupLeftBarItem()
-        setupRightBarItem()
-        
-         searchController = UISearchController(searchResultsController: nil)
-    
-        searchController.searchResultsUpdater = self
-                searchController.obscuresBackgroundDuringPresentation = false
-                searchController.searchBar.placeholder = "Search Notebooks"
-                navigationItem.searchController = searchController
-                definesPresentationContext = true
-        
+        setupRightBarStyleAndItems()
+        setupSearchBar()
     }
     
-    private func setupRightBarItem(){
-        //
-        let plusButtonRightItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(didPressPlusButton))
-        self.navigationItem.rightBarButtonItem = plusButtonRightItem
-        
+    private func setupSearchBar(){
+        self.searchBar.sizeToFit()
+        self.searchBar.delegate          = self
+        self.searchBar.showsCancelButton = true
     }
     
-    private func setupLeftBarItem(){
+    
+    private func setupSearchBarShow(isShowing: Bool){
+        
+        if isShowing{
+            self.navigationItem.rightBarButtonItems = nil
+
+        }else{
+            self.setupRightBarStyleAndItems()
+        }
+        
+        self.navigationItem.titleView = isShowing ? self.searchBar : nil
+        self.navigationItem.setHidesBackButton(isShowing, animated: true)
+        
+    }
+
+    private func setupRightBarStyleAndItems(){
+       
+        //Add note button
+        let addNoteImage = UIImage(systemName: "pencil.tip.crop.circle.badge.plus")
+        let plusButtonRightItem = UIBarButtonItem(image: addNoteImage, style: .plain, target: self, action: #selector(didPressPlusButton))
+        
+        //Remove all button
         let clearAllLeftItem = UIBarButtonItem(title: "Remove All", style: .plain, target: self, action: #selector(didPressRemoveAllButton))
-        self.navigationItem.leftBarButtonItem = clearAllLeftItem
+        
+        //Search button
+        let searchImage = UIImage(systemName: "magnifyingglass.circle")
+        let searchButtonRightItem = UIBarButtonItem(image: searchImage, style: .plain, target: self, action: #selector(didStartSearching))
+        
+        //Install buttons
+        self.navigationItem.rightBarButtonItems = [plusButtonRightItem, searchButtonRightItem, clearAllLeftItem]
+        
     }
     
     private func setupOutletsStyleAndItems(){
@@ -84,7 +106,6 @@ class NoteListViewController: UIViewController {
         self.tablewView.pin(to: self.view)        
     }
 }
-
 
 // MARK: - Extension for UITableViewDataSource
 extension NoteListViewController: UITableViewDataSource{
@@ -109,18 +130,21 @@ extension NoteListViewController: UITableViewDelegate{
     }
 }
 
-// MARK: - Extension for UISearchResultsUpdating
-extension NoteListViewController: UISearchResultsUpdating{
+// MARK: - Extension for UISearchBarDelegate
+extension NoteListViewController: UISearchBarDelegate{
     
-    func updateSearchResults(for searchController: UISearchController) {
-        
-        let searchBar = self.searchController.searchBar
-        self.viewModel.searchForThisText(predicate: searchBar.text!)
-        self.tablewView.reloadData()
-        
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if !searchText.isEmpty{
+            self.viewModel.searchForThisText(predicate: searchBar.text!)
+            self.tablewView.reloadData()
+        }
     }
-
     
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        self.setupSearchBarShow(isShowing: false)
+        self.viewModel.viewWasLoad()
+        self.tablewView.reloadData()
+    }
 }
 
 // MARK: - Extension for NoteListViewModelDelegate

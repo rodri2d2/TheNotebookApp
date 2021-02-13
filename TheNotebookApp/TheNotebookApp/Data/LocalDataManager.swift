@@ -53,6 +53,12 @@ class LocalDataManager{
     }
     
     
+    func create<T: NSManagedObject>(item: T){
+        
+    }
+    
+    
+    
     func deleteAll(entityName: String){
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
          do {

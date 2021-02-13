@@ -6,7 +6,10 @@
 //
 
 import Foundation
+import CoreData
 
 protocol AddNoteViewModelDelegate {
-    func didChange()
+    func didPhotoSourceChange()
+    func didChangeObject(type: NSFetchedResultsChangeType, indexPath: IndexPath, newIndexPath: IndexPath?)
+    func didChangeContent(controller: NSFetchedResultsController<NSFetchRequestResult>)
 }

@@ -26,6 +26,8 @@ class AddNoteViewModel: NSObject {
         super.init()
     }
     
+
+    
     // MARK: - Class functionalities
     func addNotebook(notebook: NotebookMO){
         self.notebook = notebook
@@ -112,12 +114,14 @@ class AddNoteViewModel: NSObject {
             let _ = ImageMO.createImage(imageData: image, belongsTo: note, context: self.dataManager.viewContext)
         }else{
             self.itemViewModel.append(AddNoteCellItemViewModel(image: image))
+            self.delegate?.didPhotoSourceChange()
         }
     
-        self.delegate?.didChange()
+        
     }
     
     func saveButtonWasPressed(title: String, content: String){
+        self.coordinatorDelegate?.didCreated()
         guard let belongsTo  = self.getParentNotebook() else { return }
         guard let actualMode = self.mode else { return }
         
@@ -127,7 +131,7 @@ class AddNoteViewModel: NSObject {
             case .create:
                 self.createNote(noteTitle: title, noteContent: content, belongsTo: belongsTo)
         }
-        self.coordinatorDelegate?.didCreated()
+      
     }
     
     func cancelButtonWasPressed(){
@@ -148,32 +152,41 @@ class AddNoteViewModel: NSObject {
     }
     
     private func insertNotePhotos(note: NoteMO){
+        
         if itemViewModel.count > 0 {
             for item in itemViewModel{
                 guard let noteImage = ImageMO.createImage(imageData: item.imageData, belongsTo: note, context: dataManager.viewContext) else {return}
                 note.addToHasImages(noteImage)
+                noteImage.belongsTo = note
             }
         }
     }
     
+    
+
     
 }
 
 extension AddNoteViewModel: NSFetchedResultsControllerDelegate {
     
     // will change
-    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {}
+    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>){
+    }
     
     // did change a section.
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType){}
     
     // did change an object.
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
-        self.delegate?.didChange()
+        self.delegate?.didChangeObject(type: type, indexPath: indexPath ?? IndexPath(), newIndexPath: newIndexPath ?? IndexPath())
+        
     }
     
+    
     // did change content.
-    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {}
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        
+    }
     
 }
 

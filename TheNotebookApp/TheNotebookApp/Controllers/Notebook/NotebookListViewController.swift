@@ -54,7 +54,7 @@ class NotebookListViewController: UIViewController{
         alert.textFields![1].placeholder = "Enter Notebook Description"
         
         
-        alert.addAction(UIAlertAction(title: "Create Notebook", style: .cancel, handler: {[weak self]  _ in
+        alert.addAction(UIAlertAction(title: "Create Notebook", style: .default, handler: {[weak self]  _ in
             
             guard let titleField = alert.textFields?[0],
                   let descField = alert.textFields?[1],
@@ -67,6 +67,7 @@ class NotebookListViewController: UIViewController{
             }
         }))
         
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         present(alert, animated: true, completion: nil)
         
     }
@@ -80,8 +81,11 @@ class NotebookListViewController: UIViewController{
             self.viewModel.removeAllButtonWasPressed()
             
         }))
+        
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         present(alert, animated: true, completion: nil)
         
+        self.viewModel.viewWasLoad()
         
     }
     
@@ -138,7 +142,7 @@ class NotebookListViewController: UIViewController{
             alert.textFields![1].text = notebook?.notebookDesc
             
             
-            alert.addAction(UIAlertAction(title: "Update Notebook", style: .cancel, handler: {  _ in
+            alert.addAction(UIAlertAction(title: "Update Notebook", style: .default, handler: {  _ in
                 
                 guard let titleField = alert.textFields?[0],
                       let descField = alert.textFields?[1],
@@ -151,6 +155,8 @@ class NotebookListViewController: UIViewController{
                 }
                 
             }))
+            
+            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
             
             self.present(alert, animated: true, completion: nil)
             
@@ -188,9 +194,9 @@ extension NotebookListViewController: NotebookViewModelDelegate{
             case .delete:
                 tablewView.deleteRows(at: [indexPath], with: .fade)
             case .move:
-                tablewView.reloadRows(at: [indexPath], with: .fade)
-            case .update:
                 tablewView.moveRow(at: indexPath, to: indexPath)
+            case .update:
+                tablewView.reloadRows(at: [indexPath], with: .fade)
             @unknown default:
                 fatalError()
         }
@@ -200,8 +206,6 @@ extension NotebookListViewController: NotebookViewModelDelegate{
     func dataDidChange() {
         self.tablewView.reloadData()
     }
-    
-    
 }
 
 // MARK: - Extension for UITableViewDataSource
@@ -247,11 +251,14 @@ extension NotebookListViewController: UITableViewDelegate{
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        
-        let editAction   = self.editAction(at: indexPath)
         let deleteAction = self.deleteAction(at: indexPath)
-        return UISwipeActionsConfiguration(actions: [deleteAction, editAction])
+        return UISwipeActionsConfiguration(actions: [deleteAction])
         
+    }
+    
+    func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let editAction   = self.editAction(at: indexPath)
+        return UISwipeActionsConfiguration(actions: [editAction])
     }
     
     

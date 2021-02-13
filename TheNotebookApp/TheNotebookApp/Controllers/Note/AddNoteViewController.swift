@@ -6,11 +6,13 @@
 //
 
 import UIKit
+import CoreData
 
 class AddNoteViewController: UIViewController {
     
     // MARK: - Class Properties
     private let viewModel: AddNoteViewModel
+    private var blockOperations: [BlockOperation] = []
     
     
     // MARK: - Outlets
@@ -32,10 +34,15 @@ class AddNoteViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    deinit {
+        for operation in blockOperations { operation.cancel() }
+        blockOperations.removeAll()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-         let noteObject = viewModel.viewWasLoad()
+        let noteObject = viewModel.viewWasLoad()
         setupNavigationBarStyleAndItems()
         setupOutletStyleandItems(note: noteObject)
     }
@@ -86,6 +93,7 @@ class AddNoteViewController: UIViewController {
         self.collectionView.register(UINib(nibName: "NoteItemCell", bundle: .main), forCellWithReuseIdentifier: "cell")
         collectionView.pin(to: self.collectionViewContainer)
         collectionView.backgroundColor = .white
+        
     }
     
     private func showAlert(){
@@ -120,7 +128,6 @@ class AddNoteViewController: UIViewController {
     
 }
 
-
 // MARK: - Extension for UICollectionViewDataSource
 extension AddNoteViewController: UICollectionViewDataSource{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -130,19 +137,21 @@ extension AddNoteViewController: UICollectionViewDataSource{
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         //
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! NoteItemCell
-        
         let cellItem = viewModel.cellWasLoad(at: indexPath)
         cell.imageView.image = UIImage(data: cellItem.imageData)
-        
         
         return cell
     }
 }
 
 // MARK: - Extension for UICollectionViewDelegate
-extension AddNoteViewController: UICollectionViewDelegate{
+extension AddNoteViewController: UICollectionViewDelegateFlowLayout{
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: 125, height: 125)
     }
 }
 
@@ -160,10 +169,62 @@ extension AddNoteViewController: UIImagePickerControllerDelegate & UINavigationC
     }
     
 }
-
-
 extension AddNoteViewController: AddNoteViewModelDelegate{
-    func didChange() {
+    func didPhotoSourceChange() {
         self.collectionView.reloadData()
     }
+    
+    func didChangeObject(type: NSFetchedResultsChangeType, indexPath: IndexPath, newIndexPath: IndexPath?) {
+        
+        collectionView?.performBatchUpdates({ () -> Void in
+            for operation: BlockOperation in self.blockOperations {
+                switch type {
+                    case .insert:
+                        blockOperations.append(
+                            BlockOperation(block: { [weak self] in
+                                guard let self = self else { return }
+                                self.collectionView.insertItems(at: [indexPath])
+                            })
+                        )
+                        
+                    case .delete:
+                        blockOperations.append(
+                            BlockOperation(block: { [weak self] in
+                                guard let self = self else { return }
+                                self.collectionView.deleteItems(at: [indexPath])
+                            })
+                        )
+                        
+                    case .move:
+                        blockOperations.append(
+                            BlockOperation(block: { [weak self] in
+                                guard let self = self else { return }
+                                guard let index = newIndexPath else {return}
+                                self.collectionView.moveItem(at: indexPath, to: index)
+                            })
+                        )
+                    case .update:
+                        blockOperations.append(
+                            BlockOperation(block: { [weak self] in
+                                guard let self = self else { return }
+                                self.collectionView.reloadItems(at: [indexPath])
+                            })
+                        )
+                        
+                    @unknown default:
+                        fatalError()
+                }
+                operation.start()
+            }
+        }, completion: { (finished) -> Void in
+            self.blockOperations.removeAll(keepingCapacity: false)
+        })
+        
+    }
+    
+    
+    func didChangeContent(controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        
+    }
+    
 }
