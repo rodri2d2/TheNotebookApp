@@ -13,11 +13,12 @@ class NoteListViewModel: NSObject{
     // MARK: - Class properties
     var title: String
     private var notesFetchResultsController:  NSFetchedResultsController<NSFetchRequestResult>?
-    private var dataManager: LocalDataManager
-    var delegate:            NoteListViewModelDelegate?
-    var coordinatorDelegate: NoteListCoordinatorDelegate?
-    var cells:               [NoteListCellViewModel] = []
-    private var notebook:    NotebookMO
+    private var dataManager:    LocalDataManager
+    var delegate:               NoteListViewModelDelegate?
+    var coordinatorDelegate:    NoteListCoordinatorDelegate?
+    var cells:                  [NoteListCellViewModel] = []
+    private var notebook:       NotebookMO
+    private var isRemovingAll = false
     
     
     // MARK: - Lifecycle
@@ -98,6 +99,20 @@ class NoteListViewModel: NSObject{
     func plusButtonWasPressed(){
         self.coordinatorDelegate?.didPressPlusButton(belongsTo: self.notebook)
     }
+    
+    func deleteNoteWasPressed(at indexPath: IndexPath){
+        let noteToBeRemoved = self.cells[indexPath.row].noteModel()
+        dataManager.deleteNote(note: noteToBeRemoved)
+        
+    }
+    
+    func removeAllWasPressed(){
+        self.isRemovingAll = true
+        self.dataManager.deleteAll(entityName: "Note")
+        self.dataManager.resetContext()
+        cells.removeAll()
+        print(cells.count)
+    }
 
 }
 
@@ -114,7 +129,22 @@ extension NoteListViewModel: NSFetchedResultsControllerDelegate {
     
     // did change an object.
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
-        self.delegate?.didChange()
+//        self.delegate?.didChange()
+        
+        
+        switch type {
+            case .insert:
+                self.delegate?.dataDidChange(type: type, indexPath: newIndexPath!, isRemovingAll: self.isRemovingAll)
+            case .delete:
+                self.delegate?.dataDidChange(type: type, indexPath: indexPath!, isRemovingAll: self.isRemovingAll)
+            case .update:
+                self.delegate?.dataDidChange(type: type, indexPath: indexPath!, isRemovingAll: self.isRemovingAll)
+            case .move:
+                self.delegate?.dataDidChange(type: type, indexPath: newIndexPath!, isRemovingAll: self.isRemovingAll)
+            @unknown default:
+                fatalError()
+        }
+        
         
     }
     

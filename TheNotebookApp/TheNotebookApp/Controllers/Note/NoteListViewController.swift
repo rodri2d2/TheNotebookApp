@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import CoreData
 
 class NoteListViewController: UIViewController {
     
@@ -41,6 +42,16 @@ class NoteListViewController: UIViewController {
     }
     
     @objc private func didPressRemoveAllButton(){
+        let alert = UIAlertController(title: "DELETING...", message: "All NOTES will be delete!", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { [weak self] _ in
+            guard let self = self else { return }
+            self.viewModel.removeAllWasPressed()
+            
+        }))
+        
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        
+        present(alert, animated: true, completion: nil)
         
     }
     
@@ -105,6 +116,17 @@ class NoteListViewController: UIViewController {
         self.view.addSubview(self.tablewView)
         self.tablewView.pin(to: self.view)        
     }
+    
+    private func deleteAction(at indexPath: IndexPath) -> UIContextualAction{
+        let action = UIContextualAction(style: .destructive, title: "Delete") { [weak self ](action, view, completion) in
+            guard let self = self else { return }
+            self.viewModel.deleteNoteWasPressed(at: indexPath)
+            completion(true)
+        }
+    
+        action.image = UIImage(systemName: "trash")
+        return action
+    }
 }
 
 // MARK: - Extension for UITableViewDataSource
@@ -124,10 +146,25 @@ extension NoteListViewController: UITableViewDataSource{
 
 // MARK: - Extension for UITableViewDelegate
 extension NoteListViewController: UITableViewDelegate{
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         self.viewModel.cellWasSelected(at: indexPath)
     }
+    
+    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+        return .delete
+    }
+        
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let deleteAction = self.deleteAction(at: indexPath)
+        return UISwipeActionsConfiguration(actions: [deleteAction])
+        
+    }
+    
+    
+    
+    
 }
 
 // MARK: - Extension for UISearchBarDelegate
@@ -149,6 +186,29 @@ extension NoteListViewController: UISearchBarDelegate{
 
 // MARK: - Extension for NoteListViewModelDelegate
 extension NoteListViewController: NoteListViewModelDelegate{
+    
+    func dataDidChange(type: NSFetchedResultsChangeType, indexPath: IndexPath, isRemovingAll: Bool) {
+        if isRemovingAll{
+            tablewView.reloadData()
+        }else{
+        
+        self.tablewView.beginUpdates()
+        switch type {
+            case .insert:
+                tablewView.insertRows(at: [indexPath], with: .fade)
+            case .delete:
+                tablewView.deleteRows(at: [indexPath], with: .fade)
+            case .move:
+                tablewView.moveRow(at: indexPath, to: indexPath)
+            case .update:
+                tablewView.reloadRows(at: [indexPath], with: .fade)
+            @unknown default:
+                fatalError()
+        }
+        self.tablewView.endUpdates()
+        }
+    }
+    
     func didChange() {
         self.tablewView.reloadData()
     }

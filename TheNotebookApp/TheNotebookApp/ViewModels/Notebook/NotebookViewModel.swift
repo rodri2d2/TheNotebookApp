@@ -130,7 +130,7 @@ class NotebookViewModel: NSObject{
        
         self.isRemovingAll = true
         self.dataManager.deleteAll(entityName: "Notebook")
-        self.delegate?.didChange()
+        self.dataManager.resetContext()
         cells.removeAll()
         print(cells.count)
 

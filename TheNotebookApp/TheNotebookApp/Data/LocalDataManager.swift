@@ -132,7 +132,6 @@ extension LocalDataManager{
     }
     
     func deleteNotebook(notebook: NotebookMO){
-        
         self.viewContext.delete(notebook)
         self.save()
     }
@@ -171,5 +170,10 @@ extension LocalDataManager {
             }
             completion(image)
         }
+    }
+    
+    func deleteNote(note: NoteMO){
+        self.viewContext.delete(note)
+        self.save()
     }
 }

@@ -62,11 +62,7 @@ class AddNoteViewController: UIViewController {
             }else if title.elementsEqual("Cancel") {
                 self.viewModel.cancelButtonWasPressed()
             }
-            
         }
-        
-        
-        
         self.viewModel.cancelButtonWasPressed()
     }
     

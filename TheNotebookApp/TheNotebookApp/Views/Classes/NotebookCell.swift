@@ -63,4 +63,16 @@ class NotebookCell: UITableViewCell {
         }
     }
     
+    override func prepareForReuse() {
+        self.noteboolTitle.text       = nil
+        self.notebookDescription.text = nil
+        self.notebookCreatedDate.text = nil
+        
+        //
+        self.numberOfNotesLabel.text  = "0"
+        self.notesWordLabel.text      = "notes"
+        numberOfNotesLabel.textColor = .systemGray
+        notesWordLabel.textColor = .systemGray
+    }
+    
 }

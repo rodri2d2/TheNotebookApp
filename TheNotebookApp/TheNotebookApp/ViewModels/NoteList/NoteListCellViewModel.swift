@@ -19,4 +19,8 @@ class NoteListCellViewModel{
         self.noteContent = note.noteContent!
     }
     
+    func noteModel()->NoteMO{
+        return self.note
+    }
+    
 }

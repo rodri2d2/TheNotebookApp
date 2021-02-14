@@ -39,6 +39,11 @@ class NotebookListViewController: UIViewController{
         
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.tablewView.reloadData()
+    }
+    
     // MARK: - Actions
     @objc private func didPressPlusButton(){
         
@@ -84,11 +89,7 @@ class NotebookListViewController: UIViewController{
         
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         
-        
-        
         present(alert, animated: true, completion: nil)
-        
-        self.viewModel.viewWasLoad()
         
     }
     
