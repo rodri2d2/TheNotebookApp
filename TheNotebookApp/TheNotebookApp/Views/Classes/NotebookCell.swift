@@ -40,7 +40,9 @@ class NotebookCell: UITableViewCell {
     // MARK: - Lifecycle
     override func awakeFromNib() {
         super.awakeFromNib()
+    
         setupOutletsStylesAndItems()
+       
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -49,9 +51,9 @@ class NotebookCell: UITableViewCell {
     
     // MARK: - Class functionalities
     private func setupOutletsStylesAndItems(){
-        supportView.layer.cornerRadius = 10
+  
         supportView.layer.borderWidth  = 1
-        supportView.layer.borderColor = UIColor.lightGray.cgColor
+        supportView.layer.borderColor = UIColor.systemBlue.cgColor
     }
     
     private func setupNotesLabel(numberOfNotes: Int){
