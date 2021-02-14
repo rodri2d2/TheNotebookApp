@@ -83,6 +83,9 @@ class NotebookListViewController: UIViewController{
         }))
         
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        
+        
+        
         present(alert, animated: true, completion: nil)
         
         self.viewModel.viewWasLoad()
@@ -181,32 +184,6 @@ class NotebookListViewController: UIViewController{
     
 }
 
-// MARK: - Extension for NotebookViewModelDelegate
-extension NotebookListViewController: NotebookViewModelDelegate{
-    
-    
-    func dataDidChange(type: NSFetchedResultsChangeType, indexPath: IndexPath) {
-        
-        self.tablewView.beginUpdates()
-        switch type {
-            case .insert:
-                tablewView.insertRows(at: [indexPath], with: .fade)
-            case .delete:
-                tablewView.deleteRows(at: [indexPath], with: .fade)
-            case .move:
-                tablewView.moveRow(at: indexPath, to: indexPath)
-            case .update:
-                tablewView.reloadRows(at: [indexPath], with: .fade)
-            @unknown default:
-                fatalError()
-        }
-        self.tablewView.endUpdates()
-    }
-    
-    func dataDidChange() {
-        self.tablewView.reloadData()
-    }
-}
 
 // MARK: - Extension for UITableViewDataSource
 extension NotebookListViewController: UITableViewDataSource{
@@ -264,6 +241,39 @@ extension NotebookListViewController: UITableViewDelegate{
     
 }
 
+// MARK: - Extension for NotebookViewModelDelegate
+extension NotebookListViewController: NotebookViewModelDelegate{
+    
+    
+    
+    func dataDidChange(type: NSFetchedResultsChangeType, indexPath: IndexPath, isRemovingAll: Bool) {
+        
+        if isRemovingAll{
+            tablewView.reloadData()
+        }else{
+        
+        self.tablewView.beginUpdates()
+        switch type {
+            case .insert:
+                tablewView.insertRows(at: [indexPath], with: .fade)
+            case .delete:
+                tablewView.deleteRows(at: [indexPath], with: .fade)
+            case .move:
+                tablewView.moveRow(at: indexPath, to: indexPath)
+            case .update:
+                tablewView.reloadRows(at: [indexPath], with: .fade)
+            @unknown default:
+                fatalError()
+        }
+        self.tablewView.endUpdates()
+        }
+    }
+    
+    func didChange() {
+        tablewView.reloadData()
+    }
+
+}
 
 
 

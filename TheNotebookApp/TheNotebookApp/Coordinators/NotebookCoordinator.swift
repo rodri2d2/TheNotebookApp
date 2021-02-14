@@ -80,7 +80,7 @@
             
             addNoteCoordinator.onCreated = { [weak self] in
                 guard let self = self else { return }
-                self.dataManager.saveContext()
+//                self.dataManager.saveContext()
                 addNoteCoordinator.finish()
                 self.childrem.removeAll()
                 
@@ -104,7 +104,7 @@
             
             addNoteCoordinator.onCreated = { [weak self] in
                 guard let self = self else { return }
-                self.dataManager.saveContext()
+//                self.dataManager.saveContext()
                 addNoteCoordinator.finish()
                 self.childrem.removeAll()
                 

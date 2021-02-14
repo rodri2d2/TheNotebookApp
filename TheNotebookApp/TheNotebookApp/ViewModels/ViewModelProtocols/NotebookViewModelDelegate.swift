@@ -19,5 +19,6 @@ import CoreData
  - Version: v1.0
  */
 protocol NotebookViewModelDelegate {
-    func dataDidChange(type: NSFetchedResultsChangeType, indexPath: IndexPath)
+    func didChange()
+    func dataDidChange(type: NSFetchedResultsChangeType, indexPath: IndexPath, isRemovingAll: Bool)
 }

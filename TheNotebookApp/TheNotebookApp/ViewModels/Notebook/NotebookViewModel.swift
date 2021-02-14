@@ -19,11 +19,12 @@ import CoreData
 class NotebookViewModel: NSObject{
     
     // MARK: - Class properties
-    var fetchResultsController:  NSFetchedResultsController<NSFetchRequestResult>?
-    var coordinatorDelegate: NotebookCoodinatorDelegate?
-    var delegate:            NotebookViewModelDelegate?
-    private var dataManager: LocalDataManager
-    private var cells:       [NotebookCellViewModel] = []
+    var fetchResultsController: NSFetchedResultsController<NSFetchRequestResult>?
+    var coordinatorDelegate:    NotebookCoodinatorDelegate?
+    var delegate:               NotebookViewModelDelegate?
+    private var dataManager:    LocalDataManager
+    private var cells:          [NotebookCellViewModel] = []
+    private var isRemovingAll = false
     let title = "Notebooks"
     
     
@@ -103,34 +104,36 @@ class NotebookViewModel: NSObject{
     ///   - title: type of String
     ///   - description: type of String
     func plusButtonWasPressed(title: String, description: String){
-        //
-        guard let notebook =  NotebookMO.createNotebook(title: title, description: description, createAt: Date(), in: self.dataManager.viewContext) else {return}
-        //
-        self.dataManager.saveContext()
-        //
-        cells.append(NotebookCellViewModel(notebookItem: notebook))
+        self.dataManager.addNotebook(title: title, description: description) { [weak self](notebook) in
+            guard let self = self else { return }
+            self.cells.append(NotebookCellViewModel(notebookItem: notebook))
+        }
+        
     }
     
     func updaButtonWasPressed(title: String, description: String, at indexPath: IndexPath){
         let notebook = cells[indexPath.row].notebookModel()
         notebook.title = title
         notebook.notebookDesc = description
-        self.dataManager.saveContext() 
+        self.dataManager.updateNotebook()
     }
     
     func deleteNotebookWasPressed(at indexPath: IndexPath){
         
         let notebookToBeRemoved = self.cells[indexPath.row].notebookModel()
-        self.dataManager.viewContext.delete(notebookToBeRemoved)
-        self.dataManager.saveContext()
+        dataManager.deleteNotebook(notebook: notebookToBeRemoved)
         
     }
     
     /// Call this function to clear up. To erase all Notebooks on the Storage
     func removeAllButtonWasPressed(){
-        self.cells.removeAll()
+       
+        self.isRemovingAll = true
         self.dataManager.deleteAll(entityName: "Notebook")
-        self.dataManager.saveContext()
+        self.delegate?.didChange()
+        cells.removeAll()
+        print(cells.count)
+
     }
 }
 
@@ -147,19 +150,21 @@ extension NotebookViewModel: NSFetchedResultsControllerDelegate {
         
         switch type {
             case .insert:
-                self.delegate?.dataDidChange(type: type, indexPath: newIndexPath!)
+                self.delegate?.dataDidChange(type: type, indexPath: newIndexPath!, isRemovingAll: self.isRemovingAll)
             case .delete:
-                self.delegate?.dataDidChange(type: type, indexPath: indexPath!)
+                self.delegate?.dataDidChange(type: type, indexPath: indexPath!, isRemovingAll: self.isRemovingAll)
             case .update:
-                self.delegate?.dataDidChange(type: type, indexPath: indexPath!)
+                self.delegate?.dataDidChange(type: type, indexPath: indexPath!, isRemovingAll: self.isRemovingAll)
             case .move:
-                self.delegate?.dataDidChange(type: type, indexPath: newIndexPath!)
+                self.delegate?.dataDidChange(type: type, indexPath: newIndexPath!, isRemovingAll: self.isRemovingAll)
             @unknown default:
                 fatalError()
         }
     }
     
     // did change content.
-    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {}
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        self.delegate?.didChange()
+    }
     
 }

@@ -161,6 +161,7 @@ extension AddNoteViewController: UIImagePickerControllerDelegate & UINavigationC
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         picker.dismiss(animated: true) {
+            
             if let selectedImage = info[.originalImage] as? UIImage{
                 guard let imageData = selectedImage.pngData() else { return }
                 self.viewModel.imageWasSelected(image: imageData)
@@ -170,8 +171,11 @@ extension AddNoteViewController: UIImagePickerControllerDelegate & UINavigationC
     
 }
 extension AddNoteViewController: AddNoteViewModelDelegate{
+    
     func didPhotoSourceChange() {
-        self.collectionView.reloadData()
+        DispatchQueue.main.async {
+            self.collectionView.reloadData()
+        }
     }
     
     func didChangeObject(type: NSFetchedResultsChangeType, indexPath: IndexPath, newIndexPath: IndexPath?) {

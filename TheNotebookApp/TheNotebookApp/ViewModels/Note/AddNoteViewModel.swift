@@ -111,7 +111,8 @@ class AddNoteViewModel: NSObject {
         
         if self.note != nil{
             guard let note = self.note else { return }
-            let _ = ImageMO.createImage(imageData: image, belongsTo: note, context: self.dataManager.viewContext)
+            self.dataManager.addNoteImage(imageData: image, note: note) { (image) in}
+            
         }else{
             self.itemViewModel.append(AddNoteCellItemViewModel(image: image))
             self.delegate?.didPhotoSourceChange()
@@ -147,24 +148,33 @@ class AddNoteViewModel: NSObject {
     }
     
     private func createNote(noteTitle: String, noteContent: String, belongsTo: NotebookMO){
-        guard let note = NoteMO.createNote(title: noteTitle, content: noteContent, belongsTo: belongsTo, in: dataManager.viewContext) else {return}
-        self.insertNotePhotos(note: note)
+      
+        self.dataManager.addNote(title: noteTitle, description: noteContent, belongsTo: belongsTo) {[weak self] (note) in
+            guard let self = self else { return }
+            self.insertNotePhotos(note: note)
+        }
+        
+        
     }
     
     private func insertNotePhotos(note: NoteMO){
-        
-        if itemViewModel.count > 0 {
-            for item in itemViewModel{
-                guard let noteImage = ImageMO.createImage(imageData: item.imageData, belongsTo: note, context: dataManager.viewContext) else {return}
-                note.addToHasImages(noteImage)
-                noteImage.belongsTo = note
+        DispatchQueue.global(qos: .utility).async { [weak self] in
+            guard let self = self else { return }
+            
+            if self.itemViewModel.count > 0 {
+                for item in self.itemViewModel{
+                    self.dataManager.addNoteImage(imageData: item.imageData, note: note) { (image) in
+                        note.addToHasImages(image)
+                        image.belongsTo = note
+                    }
+                    
+                }
             }
+            
+            
         }
+ 
     }
-    
-    
-
-    
 }
 
 extension AddNoteViewModel: NSFetchedResultsControllerDelegate {
@@ -181,8 +191,6 @@ extension AddNoteViewModel: NSFetchedResultsControllerDelegate {
         self.delegate?.didChangeObject(type: type, indexPath: indexPath ?? IndexPath(), newIndexPath: newIndexPath ?? IndexPath())
         
     }
-    
-    
     // did change content.
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         
