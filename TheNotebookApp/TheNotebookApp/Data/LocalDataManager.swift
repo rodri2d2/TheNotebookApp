@@ -39,8 +39,7 @@ class LocalDataManager{
     
     // MARK: - Class functionalities
     /// Saves all data from Context into Storage if a change has been detected
-    func saveContext() {
-        
+    private func save(){
         if self.viewContext.hasChanges {
             do {
                 try viewContext.save()
@@ -51,6 +50,24 @@ class LocalDataManager{
                 fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
             }
         }
+        
+        
+        
+    }
+    
+    func deleteAll(entityName: String){
+        
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
+        do {
+            let results = try viewContext.fetch(fetchRequest)
+            for object in results {
+                viewContext.delete(object as! NSManagedObject)
+            }
+        } catch let error {
+            print("Detele all data in \(entityName) error :", error)
+        }
+
+        self.save()
     }
     
     
@@ -87,4 +104,76 @@ class LocalDataManager{
         }
     }
     
+}
+
+// MARK: - Extension for Notebook
+extension LocalDataManager{
+    
+    func addNotebook(title: String, description: String, completion: @escaping (NotebookMO)->Void){
+        performInBackground { [weak self] (privateManagedObjectContext)in
+            guard let self = self else { return }
+            
+            guard let notebook =  NotebookMO.createNotebook(title: title, description: description, createAt: Date(), in: self.viewContext) else {return}
+            
+            do {
+                try privateManagedObjectContext.save()
+            } catch{
+                fatalError(error.localizedDescription)
+            }
+            
+            completion(notebook)
+            self.save()
+        }
+    }
+    
+    func updateNotebook(){
+        self.save()
+        
+    }
+    
+    func deleteNotebook(notebook: NotebookMO){
+        self.viewContext.delete(notebook)
+        self.save()
+    }
+    
+}
+
+// MARK: - Extension for Note
+extension LocalDataManager {
+    
+    func addNote(title: String, description: String, belongsTo: NotebookMO, completion: @escaping(NoteMO)->Void) {
+        performInBackground { [weak self] (privateManagedObjectContext) in
+            guard let self = self else { return }
+            
+            guard let note = NoteMO.createNote(title: title, content: description, belongsTo: belongsTo, in: self.viewContext) else {return}
+            
+            do {
+                try privateManagedObjectContext.save()
+            } catch{
+                fatalError(error.localizedDescription)
+            }
+            completion(note)
+            self.save()
+        }
+    }
+    
+    func addNoteImage(imageData: Data, note: NoteMO, completion: @escaping (ImageMO)->Void){
+        performInBackground { [weak self] (privateManagedObjectContext) in
+            guard let self = self else { return }
+            
+            guard let image = ImageMO.createImage(imageData: imageData, belongsTo: note, context: self.viewContext) else {return}
+            
+            do {
+                try privateManagedObjectContext.save()
+            } catch{
+                fatalError(error.localizedDescription)
+            }
+            completion(image)
+        }
+    }
+    
+    func deleteNote(note: NoteMO){
+        self.viewContext.delete(note)
+        self.save()
+    }
 }

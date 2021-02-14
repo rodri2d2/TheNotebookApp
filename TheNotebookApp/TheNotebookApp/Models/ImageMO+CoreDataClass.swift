@@ -12,12 +12,16 @@ import CoreData
 
 public class ImageMO: NSManagedObject {
     
-    static func createImage(imageData: Data, belongsTo: NoteMO, context: NSManagedObjectContext) -> ImageMO?{
+    static func createImage(imageData: Data, belongsTo: NoteMO?, context: NSManagedObjectContext) -> ImageMO?{
         let image = NSEntityDescription.insertNewObject(forEntityName: "Image", into: context) as? ImageMO
         
         image?.createdAt = Date() 
         image?.imageData = imageData
-        image?.belongsTo = belongsTo
+        
+        if let note = belongsTo{
+            image?.belongsTo = note
+        }
+   
         
         return image
     }

@@ -40,7 +40,9 @@ class NotebookCell: UITableViewCell {
     // MARK: - Lifecycle
     override func awakeFromNib() {
         super.awakeFromNib()
+    
         setupOutletsStylesAndItems()
+       
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -49,9 +51,9 @@ class NotebookCell: UITableViewCell {
     
     // MARK: - Class functionalities
     private func setupOutletsStylesAndItems(){
-        supportView.layer.cornerRadius = 10
+  
         supportView.layer.borderWidth  = 1
-        supportView.layer.borderColor = UIColor.lightGray.cgColor
+        supportView.layer.borderColor = UIColor.systemBlue.cgColor
     }
     
     private func setupNotesLabel(numberOfNotes: Int){
@@ -61,6 +63,18 @@ class NotebookCell: UITableViewCell {
             numberOfNotesLabel.text = String(numberOfNotes)
             notesWordLabel.text = "notes"
         }
+    }
+    
+    override func prepareForReuse() {
+        self.noteboolTitle.text       = nil
+        self.notebookDescription.text = nil
+        self.notebookCreatedDate.text = nil
+        
+        //
+        self.numberOfNotesLabel.text  = "0"
+        self.notesWordLabel.text      = "notes"
+        numberOfNotesLabel.textColor = .systemGray
+        notesWordLabel.textColor = .systemGray
     }
     
 }

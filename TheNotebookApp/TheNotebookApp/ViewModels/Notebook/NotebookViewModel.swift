@@ -10,7 +10,7 @@ import CoreData
 
 /**
  This class will handle all Notebook Data related operations
-  
+ 
  - Attention: This class has a Delegate to notify changes on the view and a CoordinatorDelegate to notify Navigation requests
  
  - Author: Rodrigo Candido
@@ -19,11 +19,12 @@ import CoreData
 class NotebookViewModel: NSObject{
     
     // MARK: - Class properties
-    var fetchResultsController:  NSFetchedResultsController<NSFetchRequestResult>?
-    var coordinatorDelegate: NotebookCoodinatorDelegate?
-    var delegate:            NotebookViewModelDelegate?
-    private var dataManager: LocalDataManager
-    private var cells:       [NotebookCellViewModel] = []
+    var fetchResultsController: NSFetchedResultsController<NSFetchRequestResult>?
+    var coordinatorDelegate:    NotebookCoodinatorDelegate?
+    var delegate:               NotebookViewModelDelegate?
+    private var dataManager:    LocalDataManager
+    private var cells:          [NotebookCellViewModel] = []
+    private var isRemovingAll = false
     let title = "Notebooks"
     
     
@@ -40,8 +41,6 @@ class NotebookViewModel: NSObject{
         let notebookNameSortDescriptor = NSSortDescriptor(key: "createdAt",
                                                           ascending: true)
         request.sortDescriptors = [notebookNameSortDescriptor]
-        
-        
         self.fetchResultsController = NSFetchedResultsController(fetchRequest: request,
                                                                  managedObjectContext: dataManager.viewContext,
                                                                  sectionNameKeyPath: nil,
@@ -51,7 +50,7 @@ class NotebookViewModel: NSObject{
         do {
             try self.fetchResultsController?.performFetch()
         } catch {
-            print("Error while trying to perform a notebook fetch.")
+            print(error.localizedDescription)
         }
         
     }
@@ -97,7 +96,7 @@ class NotebookViewModel: NSObject{
         }
         self.coordinatorDelegate?.didSelectANotebook(notebook: notebook)
     }
-
+    
     
     //Actions Related
     /// Trigger this function to add a new Notebook
@@ -105,46 +104,67 @@ class NotebookViewModel: NSObject{
     ///   - title: type of String
     ///   - description: type of String
     func plusButtonWasPressed(title: String, description: String){
-        //
-        guard let notebook =  NotebookMO.createNotebook(title: title, description: description, createAt: Date(), in: self.dataManager.viewContext) else {return}
-        //
-        self.dataManager.saveContext()
-        //
-        cells.append(NotebookCellViewModel(notebookItem: notebook))
-        self.delegate?.dataDidChange()
+        self.dataManager.addNotebook(title: title, description: description) { [weak self](notebook) in
+            guard let self = self else { return }
+            self.cells.append(NotebookCellViewModel(notebookItem: notebook))
+        }
         
     }
     
+    func updaButtonWasPressed(title: String, description: String, at indexPath: IndexPath){
+        let notebook = cells[indexPath.row].notebookModel()
+        notebook.title = title
+        notebook.notebookDesc = description
+        self.dataManager.updateNotebook()
+    }
+    
+    func deleteNotebookWasPressed(at indexPath: IndexPath){
+        
+        let notebookToBeRemoved = self.cells[indexPath.row].notebookModel()
+        dataManager.deleteNotebook(notebook: notebookToBeRemoved)
+        
+    }
     
     /// Call this function to clear up. To erase all Notebooks on the Storage
     func removeAllButtonWasPressed(){
+       
+        self.isRemovingAll = true
+        self.dataManager.deleteAll(entityName: "Notebook")
+        self.dataManager.resetContext()
         cells.removeAll()
-        delegate?.dataDidChange()
+        print(cells.count)
+
     }
 }
 
 extension NotebookViewModel: NSFetchedResultsControllerDelegate {
     
     // will change
-    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-//        print("Will Change")
-    }
+    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {}
     
     // did change a section.
-    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType){
-//        print("did change a section")
-    }
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType){}
     
     // did change an object.
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
-//        print("did change an object")
-        self.delegate?.dataDidChange()
         
+        switch type {
+            case .insert:
+                self.delegate?.dataDidChange(type: type, indexPath: newIndexPath!, isRemovingAll: self.isRemovingAll)
+            case .delete:
+                self.delegate?.dataDidChange(type: type, indexPath: indexPath!, isRemovingAll: self.isRemovingAll)
+            case .update:
+                self.delegate?.dataDidChange(type: type, indexPath: indexPath!, isRemovingAll: self.isRemovingAll)
+            case .move:
+                self.delegate?.dataDidChange(type: type, indexPath: newIndexPath!, isRemovingAll: self.isRemovingAll)
+            @unknown default:
+                fatalError()
+        }
     }
     
     // did change content.
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-//        print("did change content.")
+        self.delegate?.didChange()
     }
     
 }

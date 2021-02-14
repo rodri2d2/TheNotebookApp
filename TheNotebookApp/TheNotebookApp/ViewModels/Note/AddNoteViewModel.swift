@@ -11,22 +11,44 @@ import CoreData
 class AddNoteViewModel: NSObject {
     
     // MARK: - Class properties
-    var delegate:            AddNoteViewModelDelegate?
-    var coordinatorDelegate: AddNoteCoodinatorDelegate?
+    var delegate:                            AddNoteViewModelDelegate?
+    var coordinatorDelegate:                 AddNoteCoodinatorDelegate?
+    private let dataManager:                 LocalDataManager
+    private var notebook:                    NotebookMO?
+    private var note:                        NoteMO?
+    private var itemViewModel:               [AddNoteCellItemViewModel] = []
+    private var mode:                        Modes?
     private var imageFetchResultsController: NSFetchedResultsController<NSFetchRequestResult>?
-    private let dataManager: LocalDataManager
-    private let notebook: NotebookMO
-    private var note:     NoteMO?
-    private var itemViewModel: [AddNoteCellItemViewModel] = []
     
     // MARK: - Lifecycle
-    init(localDataManager: LocalDataManager, notebook: NotebookMO) {
+    init(localDataManager: LocalDataManager) {
         self.dataManager = localDataManager
-        self.notebook = notebook
         super.init()
     }
     
+
+    
     // MARK: - Class functionalities
+    func addNotebook(notebook: NotebookMO){
+        self.notebook = notebook
+    }
+    
+    func addNote(note: NoteMO){
+        self.note = note
+    }
+    
+    func setMode(mode: Modes){
+        self.mode = mode
+    }
+    
+    private func getParentNotebook() -> NotebookMO? {
+        if self.notebook != nil {
+            return self.notebook
+        }else {
+            return self.note?.belongsTo
+        }
+    }
+    
     private func setupResultsController(){
         
         // 2. Crear nuestro NSFetchRequest
@@ -41,8 +63,7 @@ class AddNoteViewModel: NSObject {
         fetchRequest.predicate = NSPredicate(format: "belongsTo == %@", note)
         
         // 5. Creamos el NSFetchResultsController.
-        imageFetchResultsController = NSFetchedResultsController(fetchRequest: fetchRequest,
-                                                                 managedObjectContext: dataManager.viewContext,
+        imageFetchResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: dataManager.viewContext,
                                                                  sectionNameKeyPath: nil,
                                                                  cacheName: nil)
         
@@ -55,15 +76,20 @@ class AddNoteViewModel: NSObject {
         }
     }
     
-    func viewWasLoad(){
-        setupResultsController()
+    func viewWasLoad() -> NoteMO? {
+        //Aqui estoy editando la nota
+        if self.note != nil {
+            setupResultsController()
+            return self.note
+        }
+        return nil
     }
 
     func cellWasLoad(at indexPath: IndexPath) -> AddNoteCellItemViewModel{
+        
         if let image = imageFetchResultsController?.object(at: indexPath) as? ImageMO {
             if let imageFromCoreData = image.imageData {
                 let imageItem = AddNoteCellItemViewModel(image: imageFromCoreData)
-                itemViewModel.append(imageItem)
                 return imageItem
             }
         }
@@ -71,64 +97,103 @@ class AddNoteViewModel: NSObject {
         return itemViewModel[indexPath.row]
     }
     
-    
     func numberOfItems(section: Int) -> Int{
+        
         if let fetchResultsController = imageFetchResultsController {
-            return fetchResultsController.sections![section].numberOfObjects
+            if fetchResultsController.sections![section].numberOfObjects > itemViewModel.count {
+                return fetchResultsController.sections![section].numberOfObjects
+            }
         }
         return itemViewModel.count
     }
     
     func imageWasSelected(image: Data){
-        self.itemViewModel.append(AddNoteCellItemViewModel(image: image))
-        self.delegate?.didChange()
+        
+        if self.note != nil{
+            guard let note = self.note else { return }
+            self.dataManager.addNoteImage(imageData: image, note: note) { (image) in}
+            
+        }else{
+            self.itemViewModel.append(AddNoteCellItemViewModel(image: image))
+            self.delegate?.didPhotoSourceChange()
+        }
+    
+        
     }
     
-    func createButtonWasPressed(title: String, content: String){
-        
-        
-        guard let note = NoteMO.createNote(title: title, content: content, belongsTo: self.notebook, in: dataManager.viewContext) else {return}
-        
-        if itemViewModel.count > 0 {
-            for item in itemViewModel{
-                guard let noteImage = ImageMO.createImage(imageData: item.imageData, belongsTo: note, context: dataManager.viewContext) else {return}
-                note.addToHasImages(noteImage)
-            }
-        }
-        
+    func saveButtonWasPressed(title: String, content: String){
         self.coordinatorDelegate?.didCreated()
+        guard let belongsTo  = self.getParentNotebook() else { return }
+        guard let actualMode = self.mode else { return }
+        
+        switch actualMode {
+            case .edit:
+                self.updateNote(newTitle: title, newContent: content)
+            case .create:
+                self.createNote(noteTitle: title, noteContent: content, belongsTo: belongsTo)
+        }
+      
     }
     
     func cancelButtonWasPressed(){
         self.coordinatorDelegate?.didCancel()
     }
     
+    private func updateNote(newTitle: String, newContent: String){
+        if self.note != nil{
+            self.note?.title       = newTitle
+            self.note?.noteContent = newContent
+            self.insertNotePhotos(note: self.note!)
+        }
+    }
     
+    private func createNote(noteTitle: String, noteContent: String, belongsTo: NotebookMO){
+      
+        self.dataManager.addNote(title: noteTitle, description: noteContent, belongsTo: belongsTo) {[weak self] (note) in
+            guard let self = self else { return }
+            self.insertNotePhotos(note: note)
+        }
+        
+        
+    }
     
+    private func insertNotePhotos(note: NoteMO){
+        DispatchQueue.global(qos: .utility).async { [weak self] in
+            guard let self = self else { return }
+            
+            if self.itemViewModel.count > 0 {
+                for item in self.itemViewModel{
+                    self.dataManager.addNoteImage(imageData: item.imageData, note: note) { (image) in
+                        note.addToHasImages(image)
+                        image.belongsTo = note
+                    }
+                    
+                }
+            }
+            
+            
+        }
+ 
+    }
 }
 
 extension AddNoteViewModel: NSFetchedResultsControllerDelegate {
     
     // will change
-    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        print("Will Change")
+    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>){
     }
     
     // did change a section.
-    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType){
-        print("did change a section")
-    }
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType){}
     
     // did change an object.
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
-        print("did change an object")
-        self.delegate?.didChange()
+        self.delegate?.didChangeObject(type: type, indexPath: indexPath ?? IndexPath(), newIndexPath: newIndexPath ?? IndexPath())
         
     }
-    
     // did change content.
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        print("did change content.")
+        
     }
     
 }

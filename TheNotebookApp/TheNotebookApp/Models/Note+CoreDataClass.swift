@@ -20,7 +20,8 @@ public class NoteMO: NSManagedObject {
         note?.noteContent   = content
         note?.belongsTo     = belongsTo
         return note
-        
     }
+    
+ 
     
 }

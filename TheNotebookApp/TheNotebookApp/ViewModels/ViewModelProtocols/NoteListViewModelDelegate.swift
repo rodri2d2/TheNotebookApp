@@ -6,9 +6,8 @@
 //
 
 import Foundation
+import CoreData
 
 protocol NoteListViewModelDelegate {
-    
-    func didChange()
-    
+    func dataDidChange(type: NSFetchedResultsChangeType, indexPath: IndexPath, isRemovingAll: Bool)
 }

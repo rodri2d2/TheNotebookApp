@@ -14,9 +14,12 @@ class NoteListCellViewModel{
     var noteContent:  String
     
     init(noteMO: NoteMO) {
-        self.note = noteMO
-        self.noteTitle  = note.title!
-        self.noteContent = note.noteContent!
+        self.note           = noteMO
+        self.noteTitle      = note.title!
+        self.noteContent    = note.noteContent!
     }
     
+    func noteModel()->NoteMO{
+        return self.note
+    }
 }

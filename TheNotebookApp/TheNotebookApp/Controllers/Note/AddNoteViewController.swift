@@ -6,11 +6,13 @@
 //
 
 import UIKit
+import CoreData
 
 class AddNoteViewController: UIViewController {
     
     // MARK: - Class Properties
     private let viewModel: AddNoteViewModel
+    private var blockOperations: [BlockOperation] = []
     
     
     // MARK: - Outlets
@@ -32,29 +34,48 @@ class AddNoteViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    deinit {
+        for operation in blockOperations { operation.cancel() }
+        blockOperations.removeAll()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        viewModel.viewWasLoad()
-        //
+        
+        let noteObject = viewModel.viewWasLoad()
         setupNavigationBarStyleAndItems()
-        setupOutletStyleandItems()
+        setupOutletStyleandItems(note: noteObject)
     }
     
     // MARK: - Actions
     @objc private func didPressCancelButton(){
+        
+        guard let barButton = navigationItem.leftBarButtonItem else {return}
+        if let title = barButton.title{
+         
+            if title.elementsEqual("Done"){
+                if !noteTitleTextField.text!.isEmpty {
+                    let title = noteTitleTextField.text!
+                    let content = noteContentTextField.text!
+                    viewModel.saveButtonWasPressed(title: title, content: content)
+                }
+            }else if title.elementsEqual("Cancel") {
+                self.viewModel.cancelButtonWasPressed()
+            }
+        }
         self.viewModel.cancelButtonWasPressed()
     }
     
-    @IBAction func didPressCreateButton(_ sender: UIButton) {
+    @objc func didPressCreateButton(_ sender: UIButton) {
         
         if !noteTitleTextField.text!.isEmpty {
             let title = noteTitleTextField.text!
-            let content = "note content"
-            viewModel.createButtonWasPressed(title: title, content: content)
+            let content = noteContentTextField.text!
+            viewModel.saveButtonWasPressed(title: title, content: content)
         }
     }
     
-    @IBAction func didPressAddPhotoButton(_ sender: UIButton) {
+    @objc func didPressAddPhotoButton(_ sender: UIButton) {
         self.imagePicker.delegate = self
         self.showAlert()
         
@@ -65,18 +86,48 @@ class AddNoteViewController: UIViewController {
     private func setupNavigationBarStyleAndItems(){
         
         self.title = "Notes"
+        setupLeftBarButton(with: "Cancel")
+        setupRightBarButton()
+    }
+    
+    private func setupLeftBarButton(with title: String){
         
-        let backButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(didPressCancelButton))
-        navigationItem.leftBarButtonItem = backButtonItem
+        let leftButtonItem = UIBarButtonItem(title: title, style: .plain, target: self, action: #selector(didPressCancelButton))
+        navigationItem.leftBarButtonItem = leftButtonItem
+    }
+    
+    private func setupRightBarButton(){
+        
+        let image = UIImage(systemName: "camera.fill")
+        let rightButtonItem = UIBarButtonItem(image: image, style: .plain, target: self, action: #selector(didPressAddPhotoButton))
+        navigationItem.rightBarButtonItem = rightButtonItem
         
     }
     
-    private func setupOutletStyleandItems(){
+    
+    private func setupOutletStyleandItems(note: NoteMO?){
+        if let noteToEdit = note {
+            noteTitleTextField.text = noteToEdit.title
+            noteContentTextField.text = noteToEdit.noteContent
+            setupLeftBarButton(with: "Done")
+        }
+        
+        setupCollectionView()
+        setupTexField()
+    }
+    
+    private func setupCollectionView(){
         self.collectionView = self.view.createCollectionView(delegate: self, dataSource: self, orientation: .vertical)
         self.collectionViewContainer.addSubview(collectionView)
         self.collectionView.register(UINib(nibName: "NoteItemCell", bundle: .main), forCellWithReuseIdentifier: "cell")
         collectionView.pin(to: self.collectionViewContainer)
         collectionView.backgroundColor = .white
+        
+    }
+    
+    
+    private func setupTexField(){
+        self.noteTitleTextField.delegate = self
     }
     
     private func showAlert(){
@@ -111,7 +162,6 @@ class AddNoteViewController: UIViewController {
     
 }
 
-
 // MARK: - Extension for UICollectionViewDataSource
 extension AddNoteViewController: UICollectionViewDataSource{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -122,16 +172,20 @@ extension AddNoteViewController: UICollectionViewDataSource{
         //
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! NoteItemCell
         let cellItem = viewModel.cellWasLoad(at: indexPath)
-        
         cell.imageView.image = UIImage(data: cellItem.imageData)
+        
         return cell
     }
 }
 
 // MARK: - Extension for UICollectionViewDelegate
-extension AddNoteViewController: UICollectionViewDelegate{
+extension AddNoteViewController: UICollectionViewDelegateFlowLayout{
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: 125, height: 125)
     }
 }
 
@@ -141,6 +195,7 @@ extension AddNoteViewController: UIImagePickerControllerDelegate & UINavigationC
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         picker.dismiss(animated: true) {
+            
             if let selectedImage = info[.originalImage] as? UIImage{
                 guard let imageData = selectedImage.pngData() else { return }
                 self.viewModel.imageWasSelected(image: imageData)
@@ -150,9 +205,80 @@ extension AddNoteViewController: UIImagePickerControllerDelegate & UINavigationC
     
 }
 
+extension AddNoteViewController: UITextFieldDelegate{
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        self.setupLeftBarButton(with: "Done")
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField, reason: UITextField.DidEndEditingReason) {
+        if (textField.text!.isEmpty){
+            self.setupLeftBarButton(with: "Cancel")
+        }
+    }
+    
+}
+
 
 extension AddNoteViewController: AddNoteViewModelDelegate{
-    func didChange() {
-        self.collectionView.reloadData()
+    
+    func didPhotoSourceChange() {
+        DispatchQueue.main.async {
+            self.collectionView.reloadData()
+        }
     }
+    
+    func didChangeObject(type: NSFetchedResultsChangeType, indexPath: IndexPath, newIndexPath: IndexPath?) {
+        
+        collectionView?.performBatchUpdates({ () -> Void in
+            for operation: BlockOperation in self.blockOperations {
+                switch type {
+                    case .insert:
+                        blockOperations.append(
+                            BlockOperation(block: { [weak self] in
+                                guard let self = self else { return }
+                                self.collectionView.insertItems(at: [indexPath])
+                            })
+                        )
+                        
+                    case .delete:
+                        blockOperations.append(
+                            BlockOperation(block: { [weak self] in
+                                guard let self = self else { return }
+                                self.collectionView.deleteItems(at: [indexPath])
+                            })
+                        )
+                        
+                    case .move:
+                        blockOperations.append(
+                            BlockOperation(block: { [weak self] in
+                                guard let self = self else { return }
+                                guard let index = newIndexPath else {return}
+                                self.collectionView.moveItem(at: indexPath, to: index)
+                            })
+                        )
+                    case .update:
+                        blockOperations.append(
+                            BlockOperation(block: { [weak self] in
+                                guard let self = self else { return }
+                                self.collectionView.reloadItems(at: [indexPath])
+                            })
+                        )
+                        
+                    @unknown default:
+                        fatalError()
+                }
+                operation.start()
+            }
+        }, completion: { (finished) -> Void in
+            self.blockOperations.removeAll(keepingCapacity: false)
+        })
+        
+    }
+    
+    
+    func didChangeContent(controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        
+    }
+    
 }

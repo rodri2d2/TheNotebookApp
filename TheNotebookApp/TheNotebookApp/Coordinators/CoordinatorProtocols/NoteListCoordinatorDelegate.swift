@@ -8,5 +8,6 @@
 import Foundation
 
 protocol NoteListCoordinatorDelegate {
+    func didSelectNote(note: NoteMO)
     func didPressPlusButton(belongsTo: NotebookMO)
 }

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import CoreData
 
 class NotebookListViewController: UIViewController{
     
@@ -38,6 +39,11 @@ class NotebookListViewController: UIViewController{
         
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.tablewView.reloadData()
+    }
+    
     // MARK: - Actions
     @objc private func didPressPlusButton(){
         
@@ -53,7 +59,7 @@ class NotebookListViewController: UIViewController{
         alert.textFields![1].placeholder = "Enter Notebook Description"
         
         
-        alert.addAction(UIAlertAction(title: "Create Notebook", style: .cancel, handler: {[weak self]  _ in
+        alert.addAction(UIAlertAction(title: "Create Notebook", style: .default, handler: {[weak self]  _ in
             
             guard let titleField = alert.textFields?[0],
                   let descField = alert.textFields?[1],
@@ -66,12 +72,25 @@ class NotebookListViewController: UIViewController{
             }
         }))
         
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         present(alert, animated: true, completion: nil)
         
     }
     
     @objc private func didPressRemoveAllButton(){
-        self.viewModel.removeAllButtonWasPressed()
+        
+        
+        let alert = UIAlertController(title: "DELETING...", message: "All Notebooks will be delete!", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { [weak self] _ in
+            guard let self = self else { return }
+            self.viewModel.removeAllButtonWasPressed()
+            
+        }))
+        
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        
+        present(alert, animated: true, completion: nil)
+        
     }
     
     // MARK: - Class functionalities
@@ -106,16 +125,66 @@ class NotebookListViewController: UIViewController{
         tablewView.separatorStyle = .none
     }
     
-}
-
-// MARK: - Extension for NotebookViewModelDelegate
-extension NotebookListViewController: NotebookViewModelDelegate{
-    func dataDidChange() {
-        self.tablewView.reloadData()
+    
+    private func editAction(at indexPath: IndexPath) -> UIContextualAction{
+        let action = UIContextualAction(style: .normal, title: "Edit") { [weak self ](action, view, completion) in
+            guard let self = self else { return }
+           
+            let cellViewModel = self.viewModel.cellWasLoad(at: indexPath)
+            let notebook = cellViewModel?.notebookModel()
+        
+            
+            
+            let alert = UIAlertController(title: "Edit Notebook", message: "Editing Notebook", preferredStyle: .alert)
+            
+            //Text field for notebook name
+            alert.addTextField(configurationHandler: nil)
+            alert.textFields![0].text = notebook?.title
+            
+            //Text field for notebook description
+            alert.addTextField(configurationHandler: nil)
+            alert.textFields![1].text = notebook?.notebookDesc
+            
+            
+            alert.addAction(UIAlertAction(title: "Update Notebook", style: .default, handler: {  _ in
+                
+                guard let titleField = alert.textFields?[0],
+                      let descField = alert.textFields?[1],
+                      let title = titleField.text,
+                      let description = descField.text
+                else{return}
+                
+                if !title.isEmpty{
+                    self.viewModel.updaButtonWasPressed(title: title, description: description, at: indexPath)
+                }
+                
+            }))
+            
+            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+            
+            self.present(alert, animated: true, completion: nil)
+            
+            
+            
+        }
+        action.backgroundColor = .systemBlue
+        action.image = UIImage(systemName: "pencil")
+        return action
     }
     
+    private func deleteAction(at indexPath: IndexPath) -> UIContextualAction{
+        let action = UIContextualAction(style: .destructive, title: "Delete") { [weak self ](action, view, completion) in
+            guard let self = self else { return }
+            self.viewModel.deleteNotebookWasPressed(at: indexPath)
+            completion(true)
+        }
+    
+        action.image = UIImage(systemName: "trash")
+        return action
+    }
     
 }
+
 
 // MARK: - Extension for UITableViewDataSource
 extension NotebookListViewController: UITableViewDataSource{
@@ -143,8 +212,69 @@ extension NotebookListViewController: UITableViewDelegate{
         return CGFloat(100)
     }
     
+    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+        return .delete
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete{
+            
+            let alert = UIAlertController(title: "DELETING...", message: "Notebook will be deleted!", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: {[weak self]  _ in
+                self?.viewModel.deleteNotebookWasPressed(at: indexPath)
+                
+            }))
+            present(alert, animated: true, completion: nil)
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let deleteAction = self.deleteAction(at: indexPath)
+        return UISwipeActionsConfiguration(actions: [deleteAction])
+        
+    }
+    
+    func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let editAction   = self.editAction(at: indexPath)
+        return UISwipeActionsConfiguration(actions: [editAction])
+    }
+    
+    
 }
 
+// MARK: - Extension for NotebookViewModelDelegate
+extension NotebookListViewController: NotebookViewModelDelegate{
+    
+    
+    
+    func dataDidChange(type: NSFetchedResultsChangeType, indexPath: IndexPath, isRemovingAll: Bool) {
+        
+        if isRemovingAll{
+            tablewView.reloadData()
+        }else{
+        
+        self.tablewView.beginUpdates()
+        switch type {
+            case .insert:
+                tablewView.insertRows(at: [indexPath], with: .fade)
+            case .delete:
+                tablewView.deleteRows(at: [indexPath], with: .fade)
+            case .move:
+                tablewView.moveRow(at: indexPath, to: indexPath)
+            case .update:
+                tablewView.reloadRows(at: [indexPath], with: .fade)
+            @unknown default:
+                fatalError()
+        }
+        self.tablewView.endUpdates()
+        }
+    }
+    
+    func didChange() {
+        tablewView.reloadData()
+    }
+
+}
 
 
 
