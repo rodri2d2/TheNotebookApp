@@ -49,19 +49,37 @@ class AddNoteViewController: UIViewController {
     
     // MARK: - Actions
     @objc private func didPressCancelButton(){
+        
+        guard let barButton = navigationItem.leftBarButtonItem else {return}
+        if let title = barButton.title{
+         
+            if title.elementsEqual("Done"){
+                if !noteTitleTextField.text!.isEmpty {
+                    let title = noteTitleTextField.text!
+                    let content = noteContentTextField.text!
+                    viewModel.saveButtonWasPressed(title: title, content: content)
+                }
+            }else if title.elementsEqual("Cancel") {
+                self.viewModel.cancelButtonWasPressed()
+            }
+            
+        }
+        
+        
+        
         self.viewModel.cancelButtonWasPressed()
     }
     
-    @IBAction func didPressCreateButton(_ sender: UIButton) {
+    @objc func didPressCreateButton(_ sender: UIButton) {
         
         if !noteTitleTextField.text!.isEmpty {
             let title = noteTitleTextField.text!
-            let content = "note content"
+            let content = noteContentTextField.text!
             viewModel.saveButtonWasPressed(title: title, content: content)
         }
     }
     
-    @IBAction func didPressAddPhotoButton(_ sender: UIButton) {
+    @objc func didPressAddPhotoButton(_ sender: UIButton) {
         self.imagePicker.delegate = self
         self.showAlert()
         
@@ -72,19 +90,34 @@ class AddNoteViewController: UIViewController {
     private func setupNavigationBarStyleAndItems(){
         
         self.title = "Notes"
+        setupLeftBarButton(with: "Cancel")
+        setupRightBarButton()
+    }
+    
+    private func setupLeftBarButton(with title: String){
         
-        let backButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(didPressCancelButton))
-        navigationItem.leftBarButtonItem = backButtonItem
+        let leftButtonItem = UIBarButtonItem(title: title, style: .plain, target: self, action: #selector(didPressCancelButton))
+        navigationItem.leftBarButtonItem = leftButtonItem
+    }
+    
+    private func setupRightBarButton(){
+        
+        let image = UIImage(systemName: "camera.fill")
+        let rightButtonItem = UIBarButtonItem(image: image, style: .plain, target: self, action: #selector(didPressAddPhotoButton))
+        navigationItem.rightBarButtonItem = rightButtonItem
         
     }
+    
     
     private func setupOutletStyleandItems(note: NoteMO?){
         if let noteToEdit = note {
             noteTitleTextField.text = noteToEdit.title
             noteContentTextField.text = noteToEdit.noteContent
+            setupLeftBarButton(with: "Done")
         }
         
         setupCollectionView()
+        setupTexField()
     }
     
     private func setupCollectionView(){
@@ -94,6 +127,11 @@ class AddNoteViewController: UIViewController {
         collectionView.pin(to: self.collectionViewContainer)
         collectionView.backgroundColor = .white
         
+    }
+    
+    
+    private func setupTexField(){
+        self.noteTitleTextField.delegate = self
     }
     
     private func showAlert(){
@@ -170,6 +208,22 @@ extension AddNoteViewController: UIImagePickerControllerDelegate & UINavigationC
     }
     
 }
+
+extension AddNoteViewController: UITextFieldDelegate{
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        self.setupLeftBarButton(with: "Done")
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField, reason: UITextField.DidEndEditingReason) {
+        if (textField.text!.isEmpty){
+            self.setupLeftBarButton(with: "Cancel")
+        }
+    }
+    
+}
+
+
 extension AddNoteViewController: AddNoteViewModelDelegate{
     
     func didPhotoSourceChange() {

@@ -12,8 +12,8 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AddNoteViewController" customModule="TheNotebookApp" customModuleProvider="target">
             <connections>
                 <outlet property="collectionViewContainer" destination="blS-GA-K9Z" id="oe2-yN-CuJ"/>
-                <outlet property="noteContentTextField" destination="b2m-b5-kSe" id="EGd-4y-p3w"/>
-                <outlet property="noteTitleTextField" destination="9vS-pK-zyH" id="bnn-gc-hYD"/>
+                <outlet property="noteContentTextField" destination="NDB-WF-oLa" id="jaq-O7-e8B"/>
+                <outlet property="noteTitleTextField" destination="EpD-gK-hCj" id="a3H-ug-s9o"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -22,75 +22,57 @@
             <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="gIs-uP-vyq">
-                    <rect key="frame" x="8" y="60" width="398" height="820"/>
+                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="91" translatesAutoresizingMaskIntoConstraints="NO" id="3iw-3a-c0n">
+                    <rect key="frame" x="0.0" y="60" width="414" height="786"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zq4-jL-u74" userLabel="OtherOutletsContainer">
-                            <rect key="frame" x="0.0" y="0.0" width="398" height="406"/>
+                            <rect key="frame" x="0.0" y="0.0" width="414" height="200"/>
                             <subviews>
-                                <stackView opaque="NO" contentMode="scaleAspectFit" axis="vertical" distribution="equalCentering" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="QfV-fw-gWh" userLabel="MainStack">
-                                    <rect key="frame" x="20" y="20" width="358" height="366"/>
-                                    <subviews>
-                                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="XA8-Xn-cWZ" userLabel="TextFieldStack">
-                                            <rect key="frame" x="0.0" y="0.0" width="358" height="78"/>
-                                            <subviews>
-                                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Note Title" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="9vS-pK-zyH">
-                                                    <rect key="frame" x="0.0" y="0.0" width="358" height="34"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                    <textInputTraits key="textInputTraits"/>
-                                                </textField>
-                                                <textField opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="251" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Note content" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="b2m-b5-kSe">
-                                                    <rect key="frame" x="0.0" y="44" width="358" height="34"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                    <textInputTraits key="textInputTraits"/>
-                                                </textField>
-                                            </subviews>
-                                        </stackView>
-                                        <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="yWX-Rw-0E1" userLabel="ButtonStack">
-                                            <rect key="frame" x="0.0" y="336" width="358" height="30"/>
-                                            <subviews>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6F9-K8-lfL">
-                                                    <rect key="frame" x="0.0" y="0.0" width="174" height="30"/>
-                                                    <state key="normal" title="Create"/>
-                                                    <connections>
-                                                        <action selector="didPressCreateButton:" destination="-1" eventType="touchUpInside" id="U2m-uV-mOa"/>
-                                                    </connections>
-                                                </button>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AQM-wO-N14">
-                                                    <rect key="frame" x="184" y="0.0" width="174" height="30"/>
-                                                    <state key="normal" title="Add Photo"/>
-                                                    <connections>
-                                                        <action selector="didPressAddPhotoButton:" destination="-1" eventType="touchUpInside" id="pMy-6M-TOr"/>
-                                                    </connections>
-                                                </button>
-                                            </subviews>
-                                        </stackView>
-                                    </subviews>
-                                </stackView>
+                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Note title" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="EpD-gK-hCj">
+                                    <rect key="frame" x="20" y="20" width="374" height="34"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                    <textInputTraits key="textInputTraits"/>
+                                </textField>
+                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Note Content" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="NDB-WF-oLa">
+                                    <rect key="frame" x="20" y="62" width="374" height="34"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                    <textInputTraits key="textInputTraits"/>
+                                </textField>
                             </subviews>
                             <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
                             <constraints>
-                                <constraint firstItem="QfV-fw-gWh" firstAttribute="leading" secondItem="zq4-jL-u74" secondAttribute="leading" constant="20" symbolic="YES" id="6Bp-1K-PCF"/>
-                                <constraint firstAttribute="trailing" secondItem="QfV-fw-gWh" secondAttribute="trailing" constant="20" symbolic="YES" id="6jL-Le-GdD"/>
-                                <constraint firstItem="QfV-fw-gWh" firstAttribute="top" secondItem="zq4-jL-u74" secondAttribute="top" constant="20" symbolic="YES" id="KMu-zY-uTg"/>
-                                <constraint firstAttribute="bottom" secondItem="QfV-fw-gWh" secondAttribute="bottom" constant="20" symbolic="YES" id="bdu-KQ-rYK"/>
+                                <constraint firstItem="NDB-WF-oLa" firstAttribute="top" secondItem="EpD-gK-hCj" secondAttribute="bottom" constant="8" symbolic="YES" id="6qW-j3-1PK"/>
+                                <constraint firstItem="EpD-gK-hCj" firstAttribute="top" secondItem="zq4-jL-u74" secondAttribute="top" constant="20" symbolic="YES" id="7nn-uv-OZx"/>
+                                <constraint firstItem="EpD-gK-hCj" firstAttribute="leading" secondItem="zq4-jL-u74" secondAttribute="leading" constant="20" symbolic="YES" id="Umx-Io-atG"/>
+                                <constraint firstAttribute="trailing" secondItem="NDB-WF-oLa" secondAttribute="trailing" constant="20" symbolic="YES" id="WyB-dq-r26"/>
+                                <constraint firstAttribute="trailing" secondItem="EpD-gK-hCj" secondAttribute="trailing" constant="20" symbolic="YES" id="ie8-BY-PT0"/>
+                                <constraint firstItem="NDB-WF-oLa" firstAttribute="leading" secondItem="zq4-jL-u74" secondAttribute="leading" constant="20" symbolic="YES" id="rsq-3H-fYJ"/>
                             </constraints>
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="blS-GA-K9Z" userLabel="CollectionViewContainer">
-                            <rect key="frame" x="0.0" y="414" width="398" height="406"/>
+                            <rect key="frame" x="0.0" y="291" width="414" height="495"/>
                         </view>
                     </subviews>
+                    <constraints>
+                        <constraint firstItem="blS-GA-K9Z" firstAttribute="leading" secondItem="3iw-3a-c0n" secondAttribute="leading" id="OtI-fh-K9y"/>
+                        <constraint firstAttribute="bottom" secondItem="blS-GA-K9Z" secondAttribute="bottom" id="RvX-vI-VoW"/>
+                        <constraint firstAttribute="trailing" secondItem="zq4-jL-u74" secondAttribute="trailing" id="TW3-X3-s6H"/>
+                        <constraint firstItem="zq4-jL-u74" firstAttribute="leading" secondItem="3iw-3a-c0n" secondAttribute="leading" id="ejT-e3-CQR"/>
+                        <constraint firstItem="blS-GA-K9Z" firstAttribute="top" secondItem="3iw-3a-c0n" secondAttribute="top" constant="291" id="j1N-s3-tE3"/>
+                        <constraint firstAttribute="trailing" secondItem="blS-GA-K9Z" secondAttribute="trailing" id="oco-n2-aEX"/>
+                    </constraints>
                 </stackView>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
-                <constraint firstItem="gIs-uP-vyq" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="8" id="DBv-zE-5H3"/>
-                <constraint firstAttribute="bottom" secondItem="gIs-uP-vyq" secondAttribute="bottom" constant="16" id="Fev-Nk-IbQ"/>
-                <constraint firstItem="gIs-uP-vyq" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="16" id="HNB-5N-MtP"/>
-                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="gIs-uP-vyq" secondAttribute="trailing" constant="8" id="w9c-9R-Ewp"/>
+                <constraint firstItem="3iw-3a-c0n" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="16" id="4Uv-Yj-YAa"/>
+                <constraint firstItem="3iw-3a-c0n" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="KXj-cZ-BOv"/>
+                <constraint firstItem="3iw-3a-c0n" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="T9f-W2-cF7"/>
+                <constraint firstItem="3iw-3a-c0n" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="cKw-IG-icq"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="3iw-3a-c0n" secondAttribute="bottom" constant="16" id="qD3-gf-vH2"/>
             </constraints>
-            <point key="canvasLocation" x="-301.44927536231887" y="153.34821428571428"/>
+            <point key="canvasLocation" x="-294.20289855072468" y="153.34821428571428"/>
         </view>
     </objects>
     <resources>
