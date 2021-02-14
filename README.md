@@ -31,6 +31,14 @@ The main goal is to create an app that is able to process a CRUD operation throu
 # Samples
 
 
+<p float="left">
+  <img src="https://github.com/rodri2d2/TheNotebookApp/blob/release/v1.0/gifs/1.gif" width="200" />
+  <img src="https://github.com/rodri2d2/TheNotebookApp/blob/release/v1.0/gifs/2.gif" width="200" />
+  <img src="https://github.com/rodri2d2/TheNotebookApp/blob/release/v1.0/gifs/3.gif" width="200" /> 
+  <img src="https://github.com/rodri2d2/TheNotebookApp/blob/release/v1.0/gifs/4.gif" width="200" /> 
+</p>
+<br />
+
 >Este es un proyecto de puesta en practica del BootCamp Full Stack Mobile de KeepCoding.
 >No representa ningun beneficio comercial.
 
